@@ -8,24 +8,22 @@ import Login from "./Login";
 import PrivateRoute from "./PrivateRoute";
 import ForgotPassword from "./ForgotPassword";
 import UpdateProfile from "./UpdateProfile";
+import Default from "./Default";
+import ProductList from "./ProductList";
+import { ProductConsumer } from "./ProductContext";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Switch>
-          <PrivateRoute exact path="/" component={Dashboard} />
-          <PrivateRoute path="/update-profile" component={UpdateProfile} />
-          <Container
-            className="d-flex align-items-center justify-content-center"
-            style={{ minHeight: "100vh" }}
-          >
-            <div className="w-100" style={{ maxWidth: "400px" }}>
-              <Route path="/signup" component={Signup} />
-              <Route path="/login" component={Login} />
-              <Route path="/forgot-password" component={ForgotPassword} />
-            </div>
-          </Container>
+          <PrivateRoute exact path="/" component={ProductList} />
+          <PrivateRoute path="/update-profile" component={ProductList} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/login" component={Login} />
+          <Route path="/forgot-password" component={ForgotPassword} />
+
+          <Route component={Default} />
         </Switch>
       </AuthProvider>
     </Router>
