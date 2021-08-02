@@ -1,11 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { ProductConsumer } from "./ProductContext";
 import PropTypes from "prop-types";
 
 
-function Product() {
+function Product(props) {
+  console.log(props)
+  // const { id, title, img, price, inCart } = props.product;
     return (
         <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
         <div className="card ">

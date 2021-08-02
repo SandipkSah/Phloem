@@ -1,25 +1,20 @@
-import React, { Component,useContext } from "react";
+import React, { useContext } from "react";
 import Product from "./Product";
 import Title from "./Title";
-import { ProductConsumer, useProduct, ProductContext } from "./ProductContext";
+import { ProductConsumer, useProduct } from "./ProductContext";
 
 
-function ProductList() {
-  console.log(useProduct())
-  console.log("fffffffffffff", ProductContext)
-  // const { products } = useProduct();
+export default function ProductList() {
+  const { productState } = useProduct();
+  console.log(productState);
   return (
     <div className="py-5">
       <div className="container">
         <Title name="" title="Product Request" />
         <div className="row">
-          {/* <ProductConsumer>
-            {(value) => {
-              return products.product.map((product) => {
-                return <Product key={product.id} product={product} />;
-              });
-            }}
-          </ProductConsumer> */}
+          {productState.products.map((eachProduct) => (
+            <Product key={eachProduct.id} product={eachProduct} />
+          ))}
           <Product />
           <Product />
           <Product />
@@ -34,4 +29,3 @@ function ProductList() {
   );
 }
 
-export default ProductList;

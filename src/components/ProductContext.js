@@ -1,19 +1,14 @@
-import React, { Component, useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { storeProducts, detailProduct } from "./data";
-import ProductList from "./ProductList";
+// import ProductList from "./ProductList";
 
-export const ProductContext = React.createContext();
+const ProductContext = React.createContext();
 
 export function useProduct() {
-  console.log('enteringn from product Context')
-  let returnval = useContext(ProductContext)
-  console.log(returnval)
-  return returnval ;
+  return useContext(ProductContext)
 }
 
 export default function ProductProvider({ children }) {
-  // const [currentUser, setCurrentUser] = useState();
-  // const [loading, setLoading] = useState(true);
 
   const [productState, setProductState] = useState({
     products: storeProducts,
@@ -38,7 +33,7 @@ export default function ProductProvider({ children }) {
   };
 
   useEffect(() => {
-    setProductState();
+    setProducts();
   }, []);
 
   // productState = {
@@ -124,16 +119,7 @@ export default function ProductProvider({ children }) {
     tempProductState.cart = [...tempCart];
     setProductState(tempProductState);
     addTotals();
-
-    // this.setState(
-    //   () => {
-    //     return { cart: [...tempCart] };
-    //   },
-    //   () => {
-    //     this.addTotals();
-    //   }
-    // );
-  };
+  }
 
   const decrement = (id) => {
     let tempCart = [...productState.cart];
@@ -142,24 +128,13 @@ export default function ProductProvider({ children }) {
     const index = tempCart.indexOf(selectedProduct);
     const product = tempCart[index];
     product.count = product.count - 1;
-
     if (product.count === 0) {
       removeItem(id);
     } else {
       product.total = product.count * product.price;
-
       let tempProductState = productState;
       tempProductState.cart = tempCart;
       setProductState(tempProductState);
-
-      // this.setState(
-      //   () => {
-      //     return { cart: [...tempCart] };
-      //   },
-      //   () => {
-      //     this.addTotals();
-      //   }
-      // );
     }
   };
 
@@ -175,20 +150,7 @@ export default function ProductProvider({ children }) {
     let tempProducts = productState.products;
     tempProducts.cart = tempCart;
     setProductState(tempProducts);
-
     addTotals();
-
-    // this.setState(
-    //   () => {
-    //     return {
-    //       cart: [...tempCart],
-    //       product: [...tempProducts],
-    //     };
-    //   },
-    //   () => {
-    //     this.addTotals();
-    //   }
-    // );
   };
 
   const clearCart = () => {
@@ -197,16 +159,6 @@ export default function ProductProvider({ children }) {
     setProductState(tempProducts);
     setProducts();
     addTotals();
-
-    // this.setState(
-    //   () => {
-    //     return { cart: [] };
-    //   },
-    //   () => {
-    //     this.setProducts();
-    //     this.addTotals();
-    //   }
-    // );
   };
 
   const addTotals = () => {
@@ -223,22 +175,11 @@ export default function ProductProvider({ children }) {
       tempProducts.cartTotal = total;
 
       setProductState(tempProducts);
-
-      // this.setState(() => {
-      //   return {
-      //     cartSubtotal: subTotal,
-      //     cartTax: tax,
-      //     cartTotal: total,
-      //   };
-      // });
     });
   };
 
-  //ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-  //hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
-
   const value = {
-    product:productState,
+    productState:productState,
     handleDetail: handleDetail,
     addToCart: addToCart,
     openModal: openModal,
@@ -252,24 +193,11 @@ export default function ProductProvider({ children }) {
   return (
     <ProductContext.Provider value={value}>
       {/* {!loading && children} */}
-      {/* {children} */}
-      <ProductList/>
+      {children}
+      {/* <ProductList/> */}
     </ProductContext.Provider>
   );
 }
-
-//mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
-//kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
-
-// class ProductProvider extends Component {
-//   render() {
-//     return (
-//       <ProductContext.Provider value={{}}>
-//         {this.props.children}
-//       </ProductContext.Provider>
-//     );
-//   }
-// }
 
 const ProductConsumer = ProductContext.Consumer;
 
