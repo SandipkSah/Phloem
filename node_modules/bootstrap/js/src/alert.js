@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): alert.js
+ * Bootstrap (v5.0.1): alert.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -9,6 +9,7 @@ import {
   defineJQueryPlugin,
   getElementFromSelector
 } from './util/index'
+import Data from './dom/data'
 import EventHandler from './dom/event-handler'
 import BaseComponent from './base-component'
 
@@ -77,7 +78,9 @@ class Alert extends BaseComponent {
   }
 
   _destroyElement(element) {
-    element.remove()
+    if (element.parentNode) {
+      element.parentNode.removeChild(element)
+    }
 
     EventHandler.trigger(element, EVENT_CLOSED)
   }
@@ -86,7 +89,11 @@ class Alert extends BaseComponent {
 
   static jQueryInterface(config) {
     return this.each(function () {
-      const data = Alert.getOrCreateInstance(this)
+      let data = Data.get(this, DATA_KEY)
+
+      if (!data) {
+        data = new Alert(this)
+      }
 
       if (config === 'close') {
         data[config](this)

@@ -1,11 +1,12 @@
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): button.js
+ * Bootstrap (v5.0.1): button.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
 
 import { defineJQueryPlugin } from './util/index'
+import Data from './dom/data'
 import EventHandler from './dom/event-handler'
 import BaseComponent from './base-component'
 
@@ -50,7 +51,11 @@ class Button extends BaseComponent {
 
   static jQueryInterface(config) {
     return this.each(function () {
-      const data = Button.getOrCreateInstance(this)
+      let data = Data.get(this, DATA_KEY)
+
+      if (!data) {
+        data = new Button(this)
+      }
 
       if (config === 'toggle') {
         data[config]()
@@ -69,7 +74,11 @@ EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, event => {
   event.preventDefault()
 
   const button = event.target.closest(SELECTOR_DATA_TOGGLE)
-  const data = Button.getOrCreateInstance(button)
+
+  let data = Data.get(button, DATA_KEY)
+  if (!data) {
+    data = new Button(button)
+  }
 
   data.toggle()
 })

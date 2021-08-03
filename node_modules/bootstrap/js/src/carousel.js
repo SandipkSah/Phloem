@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): carousel.js
+ * Bootstrap (v5.0.1): carousel.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -10,11 +10,11 @@ import {
   getElementFromSelector,
   isRTL,
   isVisible,
-  getNextActiveElement,
   reflow,
   triggerTransitionEnd,
   typeCheckConfig
 } from './util/index'
+import Data from './dom/data'
 import EventHandler from './dom/event-handler'
 import Manipulator from './dom/manipulator'
 import SelectorEngine from './dom/selector-engine'
@@ -58,11 +58,6 @@ const ORDER_NEXT = 'next'
 const ORDER_PREV = 'prev'
 const DIRECTION_LEFT = 'left'
 const DIRECTION_RIGHT = 'right'
-
-const KEY_TO_DIRECTION = {
-  [ARROW_LEFT_KEY]: DIRECTION_RIGHT,
-  [ARROW_RIGHT_KEY]: DIRECTION_LEFT
-}
 
 const EVENT_SLIDE = `slide${EVENT_KEY}`
 const EVENT_SLID = `slid${EVENT_KEY}`
@@ -139,7 +134,9 @@ class Carousel extends BaseComponent {
   // Public
 
   next() {
-    this._slide(ORDER_NEXT)
+    if (!this._isSliding) {
+      this._slide(ORDER_NEXT)
+    }
   }
 
   nextWhenVisible() {
@@ -151,7 +148,9 @@ class Carousel extends BaseComponent {
   }
 
   prev() {
-    this._slide(ORDER_PREV)
+    if (!this._isSliding) {
+      this._slide(ORDER_PREV)
+    }
   }
 
   pause(event) {
@@ -219,8 +218,7 @@ class Carousel extends BaseComponent {
   _getConfig(config) {
     config = {
       ...Default,
-      ...Manipulator.getDataAttributes(this._element),
-      ...(typeof config === 'object' ? config : {})
+      ...config
     }
     typeCheckConfig(NAME, config, DefaultType)
     return config
@@ -320,10 +318,12 @@ class Carousel extends BaseComponent {
       return
     }
 
-    const direction = KEY_TO_DIRECTION[event.key]
-    if (direction) {
+    if (event.key === ARROW_LEFT_KEY) {
       event.preventDefault()
-      this._slide(direction)
+      this._slide(DIRECTION_RIGHT)
+    } else if (event.key === ARROW_RIGHT_KEY) {
+      event.preventDefault()
+      this._slide(DIRECTION_LEFT)
     }
   }
 
@@ -337,7 +337,21 @@ class Carousel extends BaseComponent {
 
   _getItemByOrder(order, activeElement) {
     const isNext = order === ORDER_NEXT
-    return getNextActiveElement(this._items, activeElement, isNext, this._config.wrap)
+    const isPrev = order === ORDER_PREV
+    const activeIndex = this._getItemIndex(activeElement)
+    const lastItemIndex = this._items.length - 1
+    const isGoingToWrap = (isPrev && activeIndex === 0) || (isNext && activeIndex === lastItemIndex)
+
+    if (isGoingToWrap && !this._config.wrap) {
+      return activeElement
+    }
+
+    const delta = isPrev ? -1 : 1
+    const itemIndex = (activeIndex + delta) % this._items.length
+
+    return itemIndex === -1 ?
+      this._items[this._items.length - 1] :
+      this._items[itemIndex]
   }
 
   _triggerSlideEvent(relatedTarget, eventDirectionName) {
@@ -404,10 +418,6 @@ class Carousel extends BaseComponent {
 
     if (nextElement && nextElement.classList.contains(CLASS_NAME_ACTIVE)) {
       this._isSliding = false
-      return
-    }
-
-    if (this._isSliding) {
       return
     }
 
@@ -499,9 +509,12 @@ class Carousel extends BaseComponent {
   // Static
 
   static carouselInterface(element, config) {
-    const data = Carousel.getOrCreateInstance(element, config)
+    let data = Data.get(element, DATA_KEY)
+    let _config = {
+      ...Default,
+      ...Manipulator.getDataAttributes(element)
+    }
 
-    let { _config } = data
     if (typeof config === 'object') {
       _config = {
         ..._config,
@@ -510,6 +523,10 @@ class Carousel extends BaseComponent {
     }
 
     const action = typeof config === 'string' ? config : _config.slide
+
+    if (!data) {
+      data = new Carousel(element, _config)
+    }
 
     if (typeof config === 'number') {
       data.to(config)
@@ -551,7 +568,7 @@ class Carousel extends BaseComponent {
     Carousel.carouselInterface(target, config)
 
     if (slideIndex) {
-      Carousel.getInstance(target).to(slideIndex)
+      Data.get(target, DATA_KEY).to(slideIndex)
     }
 
     event.preventDefault()
@@ -570,7 +587,7 @@ EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
   const carousels = SelectorEngine.find(SELECTOR_DATA_RIDE)
 
   for (let i = 0, len = carousels.length; i < len; i++) {
-    Carousel.carouselInterface(carousels[i], Carousel.getInstance(carousels[i]))
+    Carousel.carouselInterface(carousels[i], Data.get(carousels[i], DATA_KEY))
   }
 })
 

@@ -1,6 +1,6 @@
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v5.0.2): dropdown.js
+ * Bootstrap (v5.0.1): dropdown.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  * --------------------------------------------------------------------------
  */
@@ -16,9 +16,9 @@ import {
   isVisible,
   isRTL,
   noop,
-  getNextActiveElement,
   typeCheckConfig
 } from './util/index'
+import Data from './dom/data'
 import EventHandler from './dom/event-handler'
 import Manipulator from './dom/manipulator'
 import SelectorEngine from './dom/selector-engine'
@@ -353,22 +353,40 @@ class Dropdown extends BaseComponent {
     }
   }
 
-  _selectMenuItem({ key, target }) {
+  _selectMenuItem(event) {
     const items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, this._menu).filter(isVisible)
 
     if (!items.length) {
       return
     }
 
-    // if target isn't included in items (e.g. when expanding the dropdown)
-    // allow cycling to get the last item in case key equals ARROW_UP_KEY
-    getNextActiveElement(items, target, key === ARROW_DOWN_KEY, !items.includes(target)).focus()
+    let index = items.indexOf(event.target)
+
+    // Up
+    if (event.key === ARROW_UP_KEY && index > 0) {
+      index--
+    }
+
+    // Down
+    if (event.key === ARROW_DOWN_KEY && index < items.length - 1) {
+      index++
+    }
+
+    // index is -1 if the first keydown is an ArrowUp
+    index = index === -1 ? 0 : index
+
+    items[index].focus()
   }
 
   // Static
 
   static dropdownInterface(element, config) {
-    const data = Dropdown.getOrCreateInstance(element, config)
+    let data = Data.get(element, DATA_KEY)
+    const _config = typeof config === 'object' ? config : null
+
+    if (!data) {
+      data = new Dropdown(element, _config)
+    }
 
     if (typeof config === 'string') {
       if (typeof data[config] === 'undefined') {
@@ -393,7 +411,7 @@ class Dropdown extends BaseComponent {
     const toggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE)
 
     for (let i = 0, len = toggles.length; i < len; i++) {
-      const context = Dropdown.getInstance(toggles[i])
+      const context = Data.get(toggles[i], DATA_KEY)
       if (!context || context._config.autoClose === false) {
         continue
       }
@@ -472,18 +490,17 @@ class Dropdown extends BaseComponent {
       return
     }
 
-    if (event.key === ARROW_UP_KEY || event.key === ARROW_DOWN_KEY) {
-      if (!isActive) {
-        getToggleButton().click()
-      }
-
-      Dropdown.getInstance(getToggleButton())._selectMenuItem(event)
+    if (!isActive && (event.key === ARROW_UP_KEY || event.key === ARROW_DOWN_KEY)) {
+      getToggleButton().click()
       return
     }
 
     if (!isActive || event.key === SPACE_KEY) {
       Dropdown.clearMenus()
+      return
     }
+
+    Dropdown.getInstance(getToggleButton())._selectMenuItem(event)
   }
 }
 
