@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { storeProducts, detailProduct } from "./data";
-import { db } from "./../firebase";
+import { db } from "../firebase";
 import firebase from "firebase";
 // import ProductList from "./ProductList";
 

@@ -12,22 +12,22 @@ import Default from "./Default";
 import ProductList from "./ProductList";
 import ProductProvider from "./ProductContext";
 import AddRequest from "./AddRequest";
-import MyRequest from "./MyRequest";
+import MyRequest from "./MyRequest/MyRequest";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Switch>
-          <Route path="/signup" component={Signup} />
-          <Route path="/login" component={Login} />
-          <Route path="/forgot-password" component={ForgotPassword} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/forgot-password" component={ForgotPassword} />
           <ProductProvider>
             <PrivateRoute exact path="/" component={Dashboard} />
-            <PrivateRoute path="/addrequests" component={AddRequest} />
-            <PrivateRoute path="/myrequests" component={MyRequest} />
+            <PrivateRoute exact path="/addrequests" component={AddRequest} />
+            <PrivateRoute exact path="/myrequests" component={MyRequest} />
           </ProductProvider>
-          <Route component={Default} />
+          <Route path="/" component={Default}/>
         </Switch>
       </AuthProvider>
     </Router>

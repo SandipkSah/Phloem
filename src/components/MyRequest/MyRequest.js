@@ -1,5 +1,5 @@
 import React from "react";
-import Title from "./Title";
+import Title from "../Title";
 // import CartColumns from "./CartColumns";
 // import EmptyCart from "./EmptyCart";
 // import { ProductConsumer } from "../context";
@@ -7,7 +7,7 @@ import Title from "./Title";
 // import CartTotals from './CartTotals'
 
 import CartColumn from './CartColumn'
-import { ProductConsumer, useProduct } from "./ProductContext";
+import { ProductConsumer, useProduct } from "../ProductContext";
 
 export default function MyRequest() {
   const { productState } = useProduct();
