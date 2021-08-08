@@ -1,17 +1,27 @@
 import React, { useEffect, useState, useContext } from "react";
 import { storeProducts, detailProduct } from "./data";
+import { db } from "./../firebase";
+import firebase from "firebase";
 // import ProductList from "./ProductList";
 
 const ProductContext = React.createContext();
 
 export function useProduct() {
-  return useContext(ProductContext)
+  return useContext(ProductContext);
 }
 
 export default function ProductProvider({ children }) {
+  let userID = null;
 
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      console.log("user is", user.uid);
+      userID = user.uid;
+    }
+  });
+  // const [storeProducts, setstoreProducts] = useState([]);
   const [productState, setProductState] = useState({
-    products: storeProducts,
+    products: [],
     detailProduct: detailProduct,
     cart: [],
     modalProduct: detailProduct,
@@ -22,30 +32,23 @@ export default function ProductProvider({ children }) {
   });
 
   const setProducts = () => {
-    let tempProducts = [];
-    storeProducts.forEach((item) => {
-      const singleItem = { ...item };
-      tempProducts = [...tempProducts, singleItem];
-    });
-    let tempProductState = productState;
-    tempProductState.products = tempProducts;
-    setProductState(tempProductState);
+    db.collection("users data").doc(userID)
+      .get()
+      .then((doc) => {
+        console.log(userID, "is the user ID", doc.data())
+        if (doc.exists) {
+          console.log("Document exist", doc.data());
+          setProductState(doc.data());
+        } else {
+          console.log("not exist");
+        }
+      });
   };
 
   useEffect(() => {
     setProducts();
   }, []);
 
-  // productState = {
-  //   products: storeProducts,
-  //   detailProduct: detailProduct,
-  //   cart: [],
-  //   modalProduct: detailProduct,
-  //   modalOpen: false,
-  //   cartSubtotal: 0,
-  //   cartTax: 0,
-  //   cartTotal: 0,
-  // };
   const getItem = (id) => {
     const product = productState.products.find((item) => item.id === id);
     return product;
@@ -59,52 +62,31 @@ export default function ProductProvider({ children }) {
   };
 
   const addToCart = (id) => {
-    let tempProducts = [...this.state.products];
+    let tempProducts = [...productState.products];
     const index = tempProducts.indexOf(this.getItem(id));
     const product = tempProducts[index];
     product.inCart = true;
     product.count = 1;
     const price = product.price;
     product.total = price;
-
     let tempProductState = productState;
     tempProductState.cart = [...tempProductState.cart, product];
     setProductState(tempProductState);
     addTotals();
-    // this.setState(
-    //   () => {
-    //     return {
-    //       products: tempProducts,
-    //       cart: [...this.state.cart, product],
-    //     };
-    //   },
-    //   () => {
-    //     this.addTotals();
-    //   }
-    // );
   };
 
   const openModal = (id) => {
     const product = getItem(id);
-
     let tempProductState = productState;
     tempProductState.modalProduct = product;
     tempProductState.modalProduct = true;
     setProductState(tempProductState);
-
-    // this.setState(() => {
-    //   return { modalProduct: product, modalOpen: true };
-    // });
   };
 
   const closeModal = () => {
     let tempProductState = productState;
     tempProductState.modalProduct = false;
     setProductState(tempProductState);
-
-    // this.setState(() => {
-    //   return { modalOpen: false };
-    // });
   };
 
   const increment = (id) => {
@@ -114,16 +96,14 @@ export default function ProductProvider({ children }) {
     const product = tempCart[index];
     product.count = product.count + 1;
     product.total = product.count * product.price;
-
     let tempProductState = productState;
     tempProductState.cart = [...tempCart];
     setProductState(tempProductState);
     addTotals();
-  }
+  };
 
   const decrement = (id) => {
     let tempCart = [...productState.cart];
-
     const selectedProduct = tempCart.find((item) => item.id === id);
     const index = tempCart.indexOf(selectedProduct);
     const product = tempCart[index];
@@ -173,13 +153,12 @@ export default function ProductProvider({ children }) {
       tempProducts.cartSubtotal = subTotal;
       tempProducts.cartTax = tax;
       tempProducts.cartTotal = total;
-
       setProductState(tempProducts);
     });
   };
 
   const value = {
-    productState:productState,
+    productState: productState,
     handleDetail: handleDetail,
     addToCart: addToCart,
     openModal: openModal,
@@ -191,14 +170,10 @@ export default function ProductProvider({ children }) {
   };
 
   return (
-    <ProductContext.Provider value={value}>
-      {/* {!loading && children} */}
-      {children}
-      {/* <ProductList/> */}
-    </ProductContext.Provider>
+    <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
   );
 }
 
 const ProductConsumer = ProductContext.Consumer;
 
-export { ProductConsumer};
+export { ProductConsumer };

@@ -1,39 +1,42 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { ProductConsumer } from "./ProductContext";
 import PropTypes from "prop-types";
 
+export default function Product(props) {
+  // console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkk", props.product);
+  let eachObject = props.product
+  const { id, title, img, price, inCart } = eachObject;
 
-function Product(props) {
-  console.log(props)
-  // const { id, title, img, price, inCart } = props.product;
-    return (
-        <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
+  // let title = "Google"
+  // let id = 1;
+  // let img = "https://assets.hongkiat.com/uploads/famous-brands-make-unexpected-products/lipton-cigarette.jpg?newedit";
+  // let price = 40;
+  // let inCart = false;
+
+  // console.log(id, title, img, price, inCart)
+  return (
+    <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
         <div className="card ">
           <ProductConsumer>
             {(value) => (
               <div
                 className="img-container p-5"
-                onClick={() => value.handleDetail("id")}
+                onClick={() => value.handleDetail(id)}
               >
                 <Link to="/details">
-                  <img
-                    src="https://assets.hongkiat.com/uploads/famous-brands-make-unexpected-products/lipton-cigarette.jpg?newedit"
-                    width="400px"
-                    alt="img"
-                    className="card-img-top"
-                  />
+                  <img src={img} alt="img" className="card-img-top" />
                 </Link>
                 <button
                   className="cart-btn"
-                  disabled={"inCart" ? true : false}
+                  disabled={inCart ? true : false}
                   onClick={() => {
-                    value.addToCart("id");
-                    value.openModal("id");
+                    value.addToCart(id);
+                    value.openModal(id);
                   }}
                 >
-                  {"inCart" ? (
+                  {inCart ? (
                     <p className="text-capitalize mb-0" disabled>
                       added to the cart
                     </p>
@@ -46,18 +49,17 @@ function Product(props) {
           </ProductConsumer>
 
           <div className="card-footer d-flex justify-content-between">
-            <p className="align-self-center mb-0">{"title"}</p>
+            <p className="align-self-center mb-0">{title}</p>
             <h5 className="text-blue font-italic mb-0">
               <span className="mr-1">$</span>
-              {"price"}
+              {price}
             </h5>
           </div>
         </div>
       </ProductWrapper>
-    )
+    // <div>hello from product</div>
+  );
 }
-
-
 
 Product.product = {
   product: PropTypes.shape({
@@ -68,11 +70,6 @@ Product.product = {
     inCart: PropTypes.bool,
   }).isRequired,
 };
-
-
-export default Product
-
-
 
 const ProductWrapper = styled.div`
   .card {

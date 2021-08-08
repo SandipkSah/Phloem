@@ -14,15 +14,16 @@ import Navbar from "./Navbar";
 import ProductProvider, { ProductConsumer, useProduct } from "./ProductContext";
 
 export default function Dashboard() {
-  
-
-
   return (
     <>
       <Navbar />
-      <ProductProvider>
-        <ProductList />
-      </ProductProvider>
+      <ProductList />
     </>
   );
+}
+
+{
+  /* <ProductProvider>
+       
+      </ProductProvider> */
 }
