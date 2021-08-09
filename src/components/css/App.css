@@ -41,3 +41,14 @@
   margin-left:auto;
   margin-right:5rem;
 }
+
+
+.button_comp{
+  cursor: pointer;
+  border-radius: 10%;
+}
+
+.button_comp:hover{
+  background-color: darkgray;
+  color: rgb(24, 21, 201);
+}

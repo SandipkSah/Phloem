@@ -11,7 +11,7 @@ export function useProduct() {
 }
 
 export default function ProductProvider({ children }) {
-  let userID = null;
+  let userID = "";
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
@@ -19,34 +19,52 @@ export default function ProductProvider({ children }) {
       userID = user.uid;
     }
   });
+
   // const [storeProducts, setstoreProducts] = useState([]);
   const [productState, setProductState] = useState({
-    products: [],
-    detailProduct: detailProduct,
-    cart: [],
-    modalProduct: detailProduct,
+    cartProducts: [],
+    modalProduct: {},
     modalOpen: false,
     cartSubtotal: 0,
     cartTax: 0,
     cartTotal: 0,
   });
 
-  const setProducts = () => {
-    db.collection("users data").doc(userID)
+  const [publicProducts, setpublicProducts] = useState([]);
+
+  const addRequests = (requestObj) => {
+    console.log("hello from add requests")
+    // db.collection("public")
+    //   .doc("posts")
+    //   .set(requestObj)
+    //   .then(() => {
+    //     console.log("post added successfully");
+    //   });
+  };
+
+  const setPosts = () => {
+    setpublicProducts(storeProducts);
+    db.collection("public")
+      .doc("posts")
       .get()
       .then((doc) => {
-        console.log(userID, "is the user ID", doc.data())
-        if (doc.exists) {
-          console.log("Document exist", doc.data());
-          setProductState(doc.data());
-        } else {
-          console.log("not exist");
-        }
+        setpublicProducts(doc.data().products);
+      });
+  };
+
+  const setUserData = () => {
+    setpublicProducts(storeProducts);
+    db.collection("users data")
+      .doc(userID)
+      .get()
+      .then((doc) => {
+        setProductState(doc.data());
       });
   };
 
   useEffect(() => {
-    setProducts();
+    setUserData();
+    setPosts();
   }, []);
 
   const getItem = (id) => {
@@ -62,17 +80,7 @@ export default function ProductProvider({ children }) {
   };
 
   const addToCart = (id) => {
-    let tempProducts = [...productState.products];
-    const index = tempProducts.indexOf(this.getItem(id));
-    const product = tempProducts[index];
-    product.inCart = true;
-    product.count = 1;
-    const price = product.price;
-    product.total = price;
-    let tempProductState = productState;
-    tempProductState.cart = [...tempProductState.cart, product];
-    setProductState(tempProductState);
-    addTotals();
+    console.log("add to cart");
   };
 
   const openModal = (id) => {
@@ -134,11 +142,7 @@ export default function ProductProvider({ children }) {
   };
 
   const clearCart = () => {
-    let tempProducts = productState;
-    tempProducts.cart = [];
-    setProductState(tempProducts);
-    setProducts();
-    addTotals();
+    console.log("hello from clear cart");
   };
 
   const addTotals = () => {
@@ -159,6 +163,7 @@ export default function ProductProvider({ children }) {
 
   const value = {
     productState: productState,
+    publicProducts: publicProducts,
     handleDetail: handleDetail,
     addToCart: addToCart,
     openModal: openModal,
@@ -167,6 +172,7 @@ export default function ProductProvider({ children }) {
     decrement: decrement,
     removeItem: removeItem,
     clearCart: clearCart,
+    addRequests: addRequests,
   };
 
   return (

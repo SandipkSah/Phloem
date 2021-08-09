@@ -7,12 +7,24 @@ import { useHistory } from "react-router-dom";
 
 export default function NavbarCustom() {
   const history = useHistory();
+
   const handleSubmitNewRequest = () => {
     history.push("/addrequests");
   };
+  
+  const handleSubmitMyRequest = () => {
+    history.push("/myrequests");
+  };
+
+
+  const handleSubmitPhloem = () => {
+    history.push("/");
+  };
+
+
   return (
     <Navbar bg="light" expand="lg">
-      <Navbar.Brand href="#">Phloem</Navbar.Brand>
+      <Navbar.Brand onClick={()=>handleSubmitPhloem()} className="button_comp" >Phloem</Navbar.Brand>
       <Navbar.Toggle aria-controls="navbarScroll" />
       <Navbar.Collapse id="navbarScroll">
         <Nav
@@ -20,13 +32,11 @@ export default function NavbarCustom() {
           style={{ maxHeight: "100px" }}
           navbarScroll
         >
-          {/* <Nav.Link href="#action1">Home</Nav.Link> */}
-          <Nav.Link href="#action2">Your Requests</Nav.Link>
-          <Nav.Link onClick={()=>handleSubmitNewRequest()}>New Requests</Nav.Link>
-
-          <Nav.Link href="#" disabled>
+          <Nav.Link onClick={()=>handleSubmitMyRequest()} className="button_comp">Requests</Nav.Link>
+          <Nav.Link onClick={()=>handleSubmitNewRequest()} className="button_comp">Add Requests</Nav.Link>
+          {/* <Nav.Link href="#" disabled>
             Link
-          </Nav.Link>
+          </Nav.Link> */}
         </Nav>
 
         <Form className="d-flex search_button">

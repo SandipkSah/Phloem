@@ -1,22 +1,19 @@
 import React, { useContext } from "react";
 import Product from "./Product";
 import Title from "./Title";
-import { ProductConsumer, useProduct } from "./ProductContext";
+import { useProduct } from "./ProductContext";
 
 export default function ProductList() {
-  const { productState } = useProduct();
-  // console.log(productState);
+  const { publicProducts } = useProduct();
+  // console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkk", publicProducts);
   return (
     <div className="py-5">
       <div className="container">
         <Title name="" title="Product Request" />
         <div className="row">
-          {/* hello from product list */}
-          {console.log("iiiiiiiiiiiiiiiiiiiiiiii",productState.products)}
-          {/* {productState.map((eachProduct) => (
-            <Product key={eachProduct.id} product={eachProduct} />
-          ))} */}
-          {productState.products.map((eachProduct) => (
+          {/* {console.log("iiiiiiiiiiiiiiiiiiiiiiii", publicProducts)} */}
+
+          {publicProducts.map((eachProduct) => (
             <Product key={eachProduct.id} product={eachProduct} />
           ))}
         </div>

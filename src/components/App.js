@@ -1,6 +1,6 @@
-import "./../App.css";
+import "./css/App.css";
 import Signup from "./Signup";
-import { Container } from "react-bootstrap";
+// import { Container } from "react-bootstrap";
 import AuthProvider from "../contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "./Homepage";
@@ -9,10 +9,10 @@ import PrivateRoute from "./PrivateRoute";
 import ForgotPassword from "./ForgotPassword";
 // import UpdateProfile from "./UpdateProfile";
 import Default from "./Default";
-import ProductList from "./ProductList";
+// import ProductList from "./ProductList";
 import ProductProvider from "./ProductContext";
-import AddRequest from "./AddRequest";
-import MyRequest from "./MyRequest/MyRequest";
+import AddRequest from "./AddRequest/AddRequest";
+import MyRequest from "./Request/MyRequest";
 
 function App() {
   return (

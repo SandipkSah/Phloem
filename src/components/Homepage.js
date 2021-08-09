@@ -9,7 +9,7 @@ import {
 
 import ProductList from "./ProductList";
 import Navbar from "./Navbar";
-import ProductProvider, { ProductConsumer, useProduct } from "./ProductContext";
+// import ProductProvider, { ProductConsumer, useProduct } from "./ProductContext";
 
 export default function Dashboard() {
   return (
