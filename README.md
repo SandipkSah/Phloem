@@ -1,6 +1,4 @@
-This app is initially based on a Startup idea. 
-I will not say more about the idea before it is launched
-
-This is based on MERN stack
-
+#Hosted at https://phloemrequest.netlify.app/
+This app was initially based on a Startup idea. 
+It is based on MERN stack and it's not complete yet
 I will try my best to complete it as soon as possible 

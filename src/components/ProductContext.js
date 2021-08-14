@@ -15,7 +15,7 @@ export default function ProductProvider({ children }) {
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      console.log("user is", user.uid);
+      // console.log("user is", user.uid);
       userID = user.uid;
     }
   });
@@ -90,9 +90,14 @@ export default function ProductProvider({ children }) {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          setUserProductState(doc.data());
+          setUserProductState({
+            ...doc.data(),
+            modalProduct: {},
+            modalOpen: false,
+            detailProduct: {},
+          });
         } else {
-          db.collection("users data").doc(userID).set(userProductState)
+          db.collection("users data").doc(userID).set(userProductState);
         }
       });
   };
@@ -103,15 +108,19 @@ export default function ProductProvider({ children }) {
   }, []);
 
   const getItem = (id) => {
-    const product = userProductState.products.find((item) => item.id === id);
+    const product = publicProducts.find((eachItem) => eachItem.id === id);
+    // console.log("the real product is from get item",product)
     return product;
   };
 
   const handleDetail = (id) => {
+    // console.log("from handle details, the id is :", id);
     const product = getItem(id);
-    let tempProductState = userProductState;
-    tempProductState.detailProduct = product;
-    setUserProductState(tempProductState);
+    // console.log("the detail product is :", product);
+    // let tempUserState = userProductState;
+    userProductState.detailProduct = product;
+    // setUserProductState(tempUserState);
+    console.log("after changihng user State", userProductState.detailProduct);
   };
 
   const addToCart = (id) => {

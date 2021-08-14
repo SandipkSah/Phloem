@@ -11,6 +11,8 @@ import ProductProvider from "./ProductContext";
 import AddRequest from "./AddRequest/AddRequest";
 import MyRequest from "./Request/MyRequest";
 import ThankUResponse from "./AddRequest/ThankURes";
+import Detail from "./detail";
+import ModalProduct from "./modal"
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
           <Route exact path="/forgot-password" component={ForgotPassword} />
           <ProductProvider>
             <PrivateRoute exact path="/" component={Dashboard} />
+            <PrivateRoute exact path="/detail" component={Detail} />
+            <PrivateRoute exact path="/openmodal" component={ModalProduct} />
             <PrivateRoute exact path="/addrequests" component={AddRequest} />
             <PrivateRoute exact path="/myrequests" component={MyRequest} />
           </ProductProvider>

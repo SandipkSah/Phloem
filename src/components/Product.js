@@ -1,23 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { ProductConsumer } from "./ProductContext";
-import PropTypes from "prop-types";
+import { useProduct } from "./ProductContext";
+
 import IconButton from "@material-ui/core/IconButton";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 
 export default function Product(props) {
-  let eachPublicProduct = props.product;
-  const { title, id, expectedPlace, priceRange, description } =
-    eachPublicProduct;
-  const price = priceRange;
+  const { handleDetail } = useProduct();
 
-  console.log(
-    "data to be included in product are expected Place:",
-    expectedPlace,
-    "and description :",
-    description
-  );
+  const { title, id, expectedPlace, priceRange, description } = props.product;
+  const price = priceRange;
 
   const img =
     "https://assets.hongkiat.com/uploads/famous-brands-make-unexpected-products/lipton-cigarette.jpg?newedit";
@@ -25,29 +18,27 @@ export default function Product(props) {
   return (
     <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
       <div className="card ">
-        <ProductConsumer>
-          {(value) => (
-            <div
-              className="img-container p-5"
-              onClick={() => value.handleDetail(id)}
-            >
-              <Link to="/details">
-                <img src={img} alt="img" className="card-img-top" />
-              </Link>
-              <IconButton
-                aria-label="delete"
-                className="cart-btn"
-                onClick={() => {
-                  value.addToCart(id);
-                  value.openModal(id);
-                }}
-              >
-                <AddShoppingCartIcon />
-              </IconButton>
-            </div>
-          )}
-        </ProductConsumer>
 
+        <div
+          className="img-container p-5"
+          onClick={() => {
+            handleDetail(id);
+          }}
+        >
+          <Link to="/detail">
+            <img src={img} alt="img" className="card-img-top" />
+          </Link>
+          <IconButton
+            aria-label="delete"
+            className="cart-btn"
+            onClick={() => {
+              // value.addToCart(id);
+              // value.openModal(id);
+            }}
+          >
+            <AddShoppingCartIcon />
+          </IconButton>
+        </div>
         <div className="card-footer d-flex justify-content-between">
           <p className="align-self-center mb-0">{title}</p>
           <h5 className="text-blue font-italic mb-0">
@@ -57,19 +48,8 @@ export default function Product(props) {
         </div>
       </div>
     </ProductWrapper>
-    // <div>hello from product</div>
   );
 }
-
-Product.product = {
-  product: PropTypes.shape({
-    id: PropTypes.number,
-    img: PropTypes.string,
-    title: PropTypes.string,
-    price: PropTypes.number,
-    inCart: PropTypes.bool,
-  }).isRequired,
-};
 
 const ProductWrapper = styled.div`
   .card {
