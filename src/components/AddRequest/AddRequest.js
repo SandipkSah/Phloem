@@ -1,24 +1,23 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import "../css/AddRequest.css";
 import Navbar from "../Navbar";
 import { useProduct } from "../ProductContext";
-import { db } from "../../firebase";
+
 import firebase from "firebase";
 
 export default function AddRequest() {
-  
   const history = useHistory();
 
   const { addRequests } = useProduct();
 
-  let userID = "";
+  let userinfo = {};
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      console.log("user is", user.uid);
-      userID = user.uid;
+      // console.log(" from add request user is", user.uid);
+      // console.log("and his email is ", user.email);
+      userinfo = { id: user.uid, email: user.email };
     }
   });
 
@@ -27,11 +26,12 @@ export default function AddRequest() {
     "Art",
     "Food",
     "Books",
-    "Memoir",
+    "Souveneir",
     "Other",
   ];
 
   const PriceOptions = [
+    "0",
     "0-50 EUR",
     "50-100 EUR",
     "100-200 EUR",
@@ -42,21 +42,29 @@ export default function AddRequest() {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    console.log("funciton invoked ...........................");
-    const requestObject = {
+    // console.log("funciton invoked ...........................");
+
+    const requestObjPublic = {
       title: event.target.title.value,
       expectedPlace: event.target.expectedPlace.value,
       category: event.target.category.value,
       priceRange: event.target.priceRange.value,
       description: event.target.description.value,
-      timestamp: new Date()
-      // img:event.target.img
+      timestamp: new Date(),
+      requestingParty: userinfo,
+      img: "https://assets.hongkiat.com/uploads/famous-brands-make-unexpected-products/lipton-cigarette.jpg?newedit",
     };
-    console.log("event.target''''''''''''' the object is ", requestObject);
 
-    // db.collection("users data").doc(userID).set(requestObject);
-    history.push("/");
-    AddRequest(requestObject);
+    const requestObjUser = {
+      inCart: [],
+      addedProduct: [],
+      requestedProducts: [],
+      detailProduct: {},
+    };
+
+    // console.log("event.target''''''''''''' the object is ", requestObject);
+    history.push("/requestsubmit");
+    addRequests(requestObjPublic, requestObjUser);
   };
 
   return (
@@ -92,7 +100,12 @@ export default function AddRequest() {
                   <select name="category" id="pet-select" className="input_box">
                     <option value="">--Please choose an option--</option>
                     {CategoryOptions.map((eachOption) => (
-                      <option value={eachOption}>{eachOption}</option>
+                      <option
+                        key={CategoryOptions.indexOf(eachOption)}
+                        value={eachOption}
+                      >
+                        {eachOption}
+                      </option>
                     ))}
                   </select>
                 </p>
@@ -119,7 +132,12 @@ export default function AddRequest() {
                   >
                     <option value="">--Please choose an option--</option>
                     {PriceOptions.map((eachOption) => (
-                      <option value={eachOption}>{eachOption}</option>
+                      <option
+                        key={PriceOptions.indexOf(eachOption)}
+                        value={eachOption}
+                      >
+                        {eachOption}
+                      </option>
                     ))}
                   </select>
                 </p>
@@ -129,18 +147,6 @@ export default function AddRequest() {
                   </label>
                   <textarea name="description" rows="5"></textarea>
                 </p>
-
-                {/* <p className="full">
-                  <label>
-                    Add an image to make it easy
-                    <span style={{ fontSize: "0.8rem" }}>(optional)</span>
-                  </label>
-                  <input
-                    type="file"
-                    name="img"
-                    className="input_box"
-                  />
-                </p> */}
 
                 <p className="full">
                   <button>Submit</button>

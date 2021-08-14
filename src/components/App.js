@@ -1,24 +1,23 @@
 import "./css/App.css";
-import Signup from "./Signup";
-// import { Container } from "react-bootstrap";
+import Signup from "./Authentication/Signup";
 import AuthProvider from "../contexts/AuthContext";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "./Homepage";
-import Login from "./Login";
-import PrivateRoute from "./PrivateRoute";
-import ForgotPassword from "./ForgotPassword";
-// import UpdateProfile from "./UpdateProfile";
+import Login from "./Authentication/Login";
+import PrivateRoute from "./Route/PrivateRoute";
+import ForgotPassword from "./Authentication/ForgotPassword";
 import Default from "./Default";
-// import ProductList from "./ProductList";
 import ProductProvider from "./ProductContext";
 import AddRequest from "./AddRequest/AddRequest";
 import MyRequest from "./Request/MyRequest";
+import ThankUResponse from "./AddRequest/ThankURes";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Switch>
+          <Route exact path="/requestsubmit" component={ThankUResponse} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/forgot-password" component={ForgotPassword} />
@@ -27,7 +26,7 @@ function App() {
             <PrivateRoute exact path="/addrequests" component={AddRequest} />
             <PrivateRoute exact path="/myrequests" component={MyRequest} />
           </ProductProvider>
-          <Route path="/" component={Default}/>
+          <Route path="/" component={Default} />
         </Switch>
       </AuthProvider>
     </Router>

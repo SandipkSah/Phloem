@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert, Container } from "react-bootstrap";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { Link, useHistory } from "react-router-dom";
 
 export default function Signup() {
@@ -18,7 +18,6 @@ export default function Signup() {
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match");
     }
-
     try {
       setError("");
       setLoading(true);
@@ -27,7 +26,6 @@ export default function Signup() {
     } catch {
       setError("Failed to create an account");
     }
-
     setLoading(false);
   }
 

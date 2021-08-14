@@ -37,18 +37,29 @@
   }
 }
 
-.search_button{
-  margin-left:auto;
-  margin-right:5rem;
+.search_button {
+  margin-left: auto;
+  margin-right: 5rem;
 }
 
-
-.button_comp{
+.button_comp {
   cursor: pointer;
   border-radius: 10%;
 }
 
-.button_comp:hover{
-  background-color: darkgray;
+.button_comp:hover {
+  background-color: rgb(193, 230, 231);
   color: rgb(24, 21, 201);
+}
+
+.product_Wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  /* grid-auto-rows: minmax(300px, auto); */
+}
+
+.each_Product {
+  width: 400px;
+  padding: 0%;
 }
