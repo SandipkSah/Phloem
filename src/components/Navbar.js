@@ -1,16 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { Alert, Button, Form, FormControl } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useAuth } from "../contexts/AuthContext";
+import firebase from "firebase";
+import { useProduct } from "./ProductContext";
 
 export default function NavbarCustom() {
   const { logout } = useAuth();
   const history = useHistory();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState({});
+
+  // const { getUserLoginInfo } = useProduct();
+
+  //  userData  = {};
+
+  // firebase.auth().onAuthStateChanged((user) => {
+  //   if (user) {
+  //     // var userData = { userID: user.uid, userEmail: user.email };
+  //     setUserData({ userID: user.uid, userEmail: user.email });
+  //     console.log("UserData is u", userData);
+  //   }
+  // });
 
   const handleSubmitNewRequest = () => {
     history.push("/addrequests");
@@ -23,6 +38,10 @@ export default function NavbarCustom() {
   const handleSubmitPhloem = () => {
     history.push("/");
   };
+
+  useEffect(() => {
+    console.log("running useEffect");
+  }, []);
 
   const handleLogout = async () => {
     console.log("to be logged out");
@@ -76,6 +95,9 @@ export default function NavbarCustom() {
             />
             <Button variant="outline-success">Search</Button>
           </Form>
+          {/* {console.log("userDAta form ", getUserLoginInfo())} */}
+          {/* <Nav.Link>{("userData.userEmail", getUserLoginInfo())}</Nav.Link> */}
+
           <Nav.Link
             onClick={() => {
               console.log("logggggggggggnh outtttttttt");

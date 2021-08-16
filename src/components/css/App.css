@@ -52,14 +52,12 @@
   color: rgb(24, 21, 201);
 }
 
-.product_Wrapper {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  /* grid-auto-rows: minmax(300px, auto); */
+.productWrapper{
+width: 100px;
+max-width: 100px;
+height: 300px;
+max-height: 300px;
 }
 
-.each_Product {
-  width: 400px;
-  padding: 0%;
-}
+
+

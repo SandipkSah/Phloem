@@ -7,18 +7,18 @@ import IconButton from "@material-ui/core/IconButton";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 
 export default function Product(props) {
-  const { handleDetail } = useProduct();
+  const { handleDetail, addToCart } = useProduct();
 
-  const { title, id, expectedPlace, priceRange, description } = props.product;
+  const { title, id,img,  expectedPlace, priceRange, description } =
+    props.product;
   const price = priceRange;
 
-  const img =
+  const defaultImg =
     "https://assets.hongkiat.com/uploads/famous-brands-make-unexpected-products/lipton-cigarette.jpg?newedit";
 
   return (
-    <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
+    <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3 productWrapper">
       <div className="card ">
-
         <div
           className="img-container p-5"
           onClick={() => {
@@ -26,14 +26,13 @@ export default function Product(props) {
           }}
         >
           <Link to="/detail">
-            <img src={img} alt="img" className="card-img-top" />
+            <img src={img||defaultImg} alt="img" width="50px" height="200px" className="card-img-top" />
           </Link>
           <IconButton
             aria-label="delete"
-            className="cart-btn"
+            className="cart-btn display-4"
             onClick={() => {
-              // value.addToCart(id);
-              // value.openModal(id);
+              addToCart(id);
             }}
           >
             <AddShoppingCartIcon />

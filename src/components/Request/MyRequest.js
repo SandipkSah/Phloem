@@ -9,10 +9,9 @@ import CartList from "./CartList";
 import { useHistory } from "react-router";
 
 export default function MyRequest() {
-  //console.log(useProduct())
   const { userState } = useProduct();
-  //console.log("sssssssssssssssssssss", userState)
-  const { addedProducts, cartProducts } = userState;
+  const { addedProducts, cartOfUser } = userState;
+
   const history = useHistory();
 
   const handleButtonClickAdded = () => {
@@ -26,7 +25,6 @@ export default function MyRequest() {
   return (
     <div>
       <Navbar />
-      {console.log("the carts details are ----------", userState)}
       <div>
         {!addedProducts?.length ? (
           <div>
@@ -51,18 +49,18 @@ export default function MyRequest() {
           <div>
             <Title name="Added" title="Request" />
             <CartHeaderColumn />
-            <CartList addedProducts={addedProducts} />
+            <CartList cartType="added" passedCartArray={addedProducts} />
           </div>
         )}
 
-        {!cartProducts?.length ? (
+        {!cartOfUser?.length ? (
           <div>
             <Card
               className="container text-center"
               style={{ marginTop: "30vh", "padding":"2rem" }} 
             >
-              <p>You have not accepted any Request</p>
-              <p>Please Go to Product List to accept</p>
+              <p>You have not added any Request to Cart</p>
+              <p>Please Go to Product List to add to cart</p>
               <Button
                 className="m-auto"
                 variant="primary"
@@ -76,9 +74,9 @@ export default function MyRequest() {
           </div>
         ) : (
           <div>
-            <Title name="Accepted" title="Requests" />
+            <Title name="" title="Requests in Cart" />
             <AcceptedRequestHeader />
-            <CartList carts={cartProducts} />
+            <CartList cartType="inCart" passedCartArray={cartOfUser} />
           </div>
         )}
       </div>

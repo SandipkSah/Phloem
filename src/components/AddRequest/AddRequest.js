@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import "../css/AddRequest.css";
 import Navbar from "../Navbar";
 import { useProduct } from "../ProductContext";
-
 import firebase from "firebase";
 
 export default function AddRequest() {
   const history = useHistory();
-
-  const { addRequests } = useProduct();
+  const [fileData, setFileData] = useState();
+  const { addRequests, uploadRef } = useProduct();
 
   let userinfo = {};
 
@@ -40,31 +39,28 @@ export default function AddRequest() {
     ">1000 EUR",
   ];
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    // console.log("funciton invoked ...........................");
-
-    const requestObjPublic = {
-      title: event.target.title.value,
-      expectedPlace: event.target.expectedPlace.value,
-      category: event.target.category.value,
-      priceRange: event.target.priceRange.value,
-      description: event.target.description.value,
-      timestamp: new Date(),
-      requestingParty: userinfo,
-      img: "https://assets.hongkiat.com/uploads/famous-brands-make-unexpected-products/lipton-cigarette.jpg?newedit",
-    };
-
-    const requestObjUser = {
-      inCart: [],
-      addedProduct: [],
-      requestedProducts: [],
-      detailProduct: {},
-    };
-
-    // console.log("event.target''''''''''''' the object is ", requestObject);
-    history.push("/requestsubmit");
-    addRequests(requestObjPublic, requestObjUser);
+    console.log("the file from handleform subit is ", fileData);
+    uploadRef(fileData, event.target.title.value)
+      .then((resultingURL) => {
+        const requestObjPublic = {
+          title: event.target.title.value,
+          expectedPlace: event.target.expectedPlace.value,
+          category: event.target.category.value,
+          priceRange: event.target.priceRange.value,
+          description: event.target.description.value,
+          timestamp: new Date(),
+          requestingParty: userinfo,
+          addedToCart:false,
+          img: resultingURL,
+        };
+        addRequests(requestObjPublic);
+        history.push("/requestsubmit");
+      })
+      .catch((err) => {
+        console.log("error uplodain image");
+      });
   };
 
   return (
@@ -86,6 +82,7 @@ export default function AddRequest() {
                   // console.log("from forrrrrrrrrrrrrr",e.target.title.value)
                   handleFormSubmit(e);
                 }}
+                // onChange={(e)=>{console.log("the image is ", e.target.files[0])}}
               >
                 <p>
                   <label>
@@ -140,6 +137,25 @@ export default function AddRequest() {
                       </option>
                     ))}
                   </select>
+                </p>
+                <p>
+                  <label>
+                    Upload image
+                    <span style={{ color: "red" }}>*</span>
+                  </label>
+                  <input
+                    type="file"
+                    name="img"
+                    onChange={(e) => {
+                      console.log(
+                        "the file isssssssssssssss",
+                        e.target.files[0]
+                      );
+                      setFileData(e.target.files[0]);
+                    }}
+
+                    // className="input_box"
+                  />
                 </p>
                 <p className="full">
                   <label>

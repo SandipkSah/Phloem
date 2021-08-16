@@ -1,16 +1,19 @@
-import React from "react";
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import React,{useEffect, useState} from "react";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { useProduct } from "../ProductContext";
 
-export default function CartItem({ item, value }) {
-  const { id, title, img, priceRange, total} = item;
+export default function CartItem({ item, value, cartType }) {
+  const { id, title, img, priceRange, total } = item;
+  const { removeItemFromCart, removeItemFromAdded } = useProduct();
+  const [invoke, setInvoke] = useState(false);
 
-  console.log(
-    "data to be included in Cart is expected Place:",
-    total
-  );
+  //useEffect(() => {}, [invoke]);
 
-  const { removeItem } = value;
+  console.log("from cart ITem the cart type is ", cartType);
+
+  console.log(removeItemFromCart, "and", removeItemFromAdded);
+
   return (
     <div className="row my-1 text-capitalize text-center">
       <div className="col-10 mx-auto col-lg-2">
@@ -29,15 +32,21 @@ export default function CartItem({ item, value }) {
       </div>
 
       <div className="col-10 mx-auto col-lg-2">
-        <div className="cart-icon" onClick={() => removeItem(id)}>
-          <IconButton aria-label="delete" style={{"color":"#dab057"}}>
+        <div
+          className="cart-icon"
+          onClick={() => {
+            cartType === "added"
+              ? removeItemFromAdded(id)
+              : removeItemFromCart(item);
+              setInvoke(!invoke)
+            console.log("impement function here");
+          }}
+        >
+          <IconButton aria-label="delete" style={{ color: "#dab057" }}>
             <DeleteIcon />
           </IconButton>
         </div>
       </div>
-      {/* <div className="col-10 mx-auto col-lg-2">
-        <strong>item total : $ {priceRange}</strong>
-      </div> */}
     </div>
   );
 }

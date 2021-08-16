@@ -4,13 +4,14 @@ import CartItem from "./CartItem";
 
 
 export default function CartList(props) {
-    const {addedProducts} = props;
+    const {passedCartArray, cartType} = props;
+    console.log("the cart type is ",cartType)
     return (
         <div className="container-fluid ">
-          {console.log("added productsssssssssssss", addedProducts)}
-          {addedProducts?.map(item => {
-            console.log("\\\\\\\\|||||||||||||||||||", item)
-            return <CartItem key={item.id} item={item} value={addedProducts} />;
+          {/* {console.log("added productsssssssssssss", passedCartArray)} */}
+          {passedCartArray?.map(item => {
+            // console.log("\\\\\\\\|||||||||||||||||||", item)
+            return <CartItem cartType={cartType} key={item.id} item={item} value={item} />;
           })}
         </div>
       );
