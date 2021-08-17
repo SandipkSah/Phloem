@@ -26,38 +26,38 @@ export default function MyRequest() {
     <div>
       <Navbar />
       <div>
+        <Title name="Added" title="Requests" />
         {!addedProducts?.length ? (
           <div>
-          <Card
-            className="container text-center"
-            style={{ marginTop: "30vh", "padding":"2rem" }} 
-          >
-            <p>You have not added any Request</p>
-            <p>Please Go to Add Request to add</p>
-            <Button
-              className="m-auto"
-              variant="primary"
-              onClick={() => {
-                handleButtonClickAdded();
-              }}
+            <Card
+              className="container text-center"
+              style={{ marginTop: "auto", padding: "2rem" }}
             >
-              Add request
-            </Button>
-          </Card>
-        </div>
+              <p>You have not added any Request</p>
+              <p>Please Go to Add Request to add</p>
+              <Button
+                className="m-auto"
+                variant="primary"
+                onClick={() => {
+                  handleButtonClickAdded();
+                }}
+              >
+                Add request
+              </Button>
+            </Card>
+          </div>
         ) : (
           <div>
-            <Title name="Added" title="Request" />
             <CartHeaderColumn />
             <CartList cartType="added" passedCartArray={addedProducts} />
           </div>
         )}
-
+        <Title name="" title="Requests in Cart" />
         {!cartOfUser?.length ? (
           <div>
             <Card
               className="container text-center"
-              style={{ marginTop: "30vh", "padding":"2rem" }} 
+              style={{ marginTop: "auto", padding: "2rem" }}
             >
               <p>You have not added any Request to Cart</p>
               <p>Please Go to Product List to add to cart</p>
@@ -74,7 +74,6 @@ export default function MyRequest() {
           </div>
         ) : (
           <div>
-            <Title name="" title="Requests in Cart" />
             <AcceptedRequestHeader />
             <CartList cartType="inCart" passedCartArray={cartOfUser} />
           </div>

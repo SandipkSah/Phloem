@@ -12,20 +12,19 @@ export default function NavbarCustom() {
   const { logout } = useAuth();
   const history = useHistory();
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  // const { getUserLoginInfo } = useProduct();
+  let userData = {};
 
-  //  userData  = {};
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      userData = { userID: user.uid, userEmail: user.email };
+    }
+  });
 
-  // firebase.auth().onAuthStateChanged((user) => {
-  //   if (user) {
-  //     // var userData = { userID: user.uid, userEmail: user.email };
-  //     setUserData({ userID: user.uid, userEmail: user.email });
-  //     console.log("UserData is u", userData);
-  //   }
-  // });
+  const getUserLoginInfo = () => {
+    return userData;
+  };
 
   const handleSubmitNewRequest = () => {
     history.push("/addrequests");
@@ -38,10 +37,6 @@ export default function NavbarCustom() {
   const handleSubmitPhloem = () => {
     history.push("/");
   };
-
-  useEffect(() => {
-    console.log("running useEffect");
-  }, []);
 
   const handleLogout = async () => {
     console.log("to be logged out");
@@ -62,6 +57,7 @@ export default function NavbarCustom() {
         <Navbar.Brand
           onClick={() => handleSubmitPhloem()}
           className="button_comp"
+          disabled={loading}
         >
           Phloem
         </Navbar.Brand>
@@ -75,12 +71,14 @@ export default function NavbarCustom() {
             <Nav.Link
               onClick={() => handleSubmitMyRequest()}
               className="button_comp"
+              disabled={loading}
             >
               Requests
             </Nav.Link>
             <Nav.Link
               onClick={() => handleSubmitNewRequest()}
               className="button_comp"
+              disabled={loading}
             >
               Add Requests
             </Nav.Link>
@@ -95,12 +93,10 @@ export default function NavbarCustom() {
             />
             <Button variant="outline-success">Search</Button>
           </Form>
-          {/* {console.log("userDAta form ", getUserLoginInfo())} */}
-          {/* <Nav.Link>{("userData.userEmail", getUserLoginInfo())}</Nav.Link> */}
 
           <Nav.Link
             onClick={() => {
-              console.log("logggggggggggnh outtttttttt");
+              // console.log("logggggggggggnh outtttttttt");
               handleLogout();
             }}
             className="button_comp"

@@ -21,7 +21,7 @@ export default function ProductProvider({ children }) {
     if (user) {
       userID = user.uid;
       userEmail = user.email;
-      // setNewData(user.email)
+      console.log("the current user is :", userID, userEmail);
     }
   });
 
@@ -36,12 +36,12 @@ export default function ProductProvider({ children }) {
   });
 
   const [publicProducts, setpublicProducts] = useState([]);
-  const [invoke, setInvoke] = useState(false);
+  const [rerenderInvoke, setRerenderInvoke] = useState(false);
 
   useEffect(() => {
     userID && setUserData();
     userID && setPosts();
-  }, [invoke]);
+  }, [rerenderInvoke]);
 
   const setPosts = async () => {
     tempPublicProduct = [];
@@ -55,6 +55,7 @@ export default function ProductProvider({ children }) {
       tempPublicProduct.push({ ...doc.data(), id: doc.id });
     });
     setpublicProducts(tempPublicProduct);
+    setRerenderInvoke(!rerenderInvoke);
   };
 
   const setUserData = () => {
@@ -78,6 +79,7 @@ export default function ProductProvider({ children }) {
           });
         }
       });
+    setRerenderInvoke(!rerenderInvoke);
   };
 
   const getItem = (id) => {
@@ -85,11 +87,6 @@ export default function ProductProvider({ children }) {
     //console.log("the real product is from get item",product)
     return product;
   };
-
-  // const getUserLoginInfo = () => {
-  //   return "userEmail"
-  //   // return ({email:userEmail, id:userID});
-  // };
 
   const addToPublicPosts = (addedPost) => {
     db.collection("public_posts")
@@ -104,14 +101,8 @@ export default function ProductProvider({ children }) {
   };
 
   const removeItemFromPublic = (id) => {
-    // console.log(
-    //   "hello from removeitem from publllllllllll the id item is ",
-    //   id
-    // );
-
     db.collection("public_posts").doc(id).delete();
     console.log("object with object id ", id, "is deleted");
-
     setPosts();
     setUserData();
   };
@@ -149,6 +140,7 @@ export default function ProductProvider({ children }) {
     //The above code adds data to user data collection
     setPosts();
     setUserData();
+    setRerenderInvoke(!rerenderInvoke)
   };
 
   const addToCart = (id) => {
@@ -164,10 +156,18 @@ export default function ProductProvider({ children }) {
           tempPost
         );
       });
-    console.log("added to cart is the product", tempPost);
 
-    db.collection("public_posts").doc(id).update({ addToPublicPosts: true });
-    setInvoke(!invoke);
+    db.collection("public_posts")
+      .doc(id)
+      .update({
+        addedToCart: true,
+      })
+      .then(() => {
+        console.log("addedtoCart of public Post", tempPost, "is turned on");
+      });
+
+    // db.collection("public_posts").doc(id).update({ addToPublicPosts: true });
+    setRerenderInvoke(!rerenderInvoke);
   };
 
   const handleDetail = (id) => {
@@ -194,29 +194,31 @@ export default function ProductProvider({ children }) {
     setUserProductState(tempProductState);
   };
 
-  const removeItemFromCart = async (objectToRemove) => {
-    const { id } = objectToRemove;
+  const removeItemFromCart = async (id) => {
+    // console.log("user DAta are ;;;;;;;", userProductState.cartOfUser);
     userProductState.cartOfUser = userProductState.cartOfUser.filter(
-      (eachCartPost) => eachCartPost.id != id
+      (eachCartProduct) => eachCartProduct.id != id
     );
-    await db
-      .collection("users data")
+    // console.log("--------------------------------", id);
+    // console.log("user DAta are ;;;;;;;", userProductState.cartOfUser);
+    db.collection("users data")
       .doc(userID)
-      .update({
-        cartOfUser: userProductState.cartOfUser,
-      })
-      .then(() => {
+      .update({ cartOfUser: userProductState.cartOfUser })
+      .then(() =>
         console.log(
-          "product removed from cartOfUser, the product is",
-          objectToRemove
-        );
-      });
-    addToPublicPosts(objectToRemove);
+          "cartOfUser successfully set of userID ::",
+          userID,
+          "and eamil ::",
+          userEmail
+        )
+      );
+    db.collection("public_posts").doc(id).update({ addedToCart: false });
+    setRerenderInvoke(!rerenderInvoke)
   };
 
   const removeItemFromAdded = async (id) => {
     const tempPost = getItem(id);
-    removeItemFromPublic(id);
+
     userProductState.addedProducts = userProductState.addedProducts.filter(
       (eachAddedPost) => eachAddedPost.id != id
     );
@@ -232,6 +234,9 @@ export default function ProductProvider({ children }) {
           tempPost
         );
       });
+
+    removeItemFromPublic(id);
+    setRerenderInvoke(!rerenderInvoke);
   };
 
   const clearCart = async () => {
@@ -249,18 +254,6 @@ export default function ProductProvider({ children }) {
         console.log("cart emptied");
       });
   };
-
-  // const addTotals = () => {
-  //   console.log("hello from addTotals ");
-  //   let sum = 0;
-  //   userProductState.cartOfUser.map(
-  //     (eachCartPost) => {
-  //       sum = sum + 0;
-  //     }
-  //     //TO BE IMPLEMENTED
-  //   );
-  //   return sum;
-  // };
 
   const uploadRef = async (file, newName) => {
     console.log("the file is ", file);
@@ -281,6 +274,21 @@ export default function ProductProvider({ children }) {
     return imageURL;
   };
 
+  const handleDatabase = () => {
+    console.log("handling database.........");
+    // console.log("the length of public productttttttttttt", publicProducts);
+    // let tempHandleDBVar = [];
+    // publicProducts.map((eachPublicPost) => {
+    //   eachPublicPost.requestingParty.id == userID
+    //     ? tempHandleDBVar.push(eachPublicPost)
+    //     : console.log("NOTOFINTEREST");
+    // });
+    // db.collection("users data")
+    //   .doc(userID)
+    //   .update({ addedProducts: tempHandleDBVar })
+    //   .then(() => console.log("data updated with :", tempHandleDBVar));
+  };
+
   const value = {
     // getUserLoginInfo: getUserLoginInfo,
     userState: userProductState,
@@ -294,6 +302,7 @@ export default function ProductProvider({ children }) {
     removeItemFromAdded: removeItemFromAdded,
     clearCart: clearCart,
     uploadRef: uploadRef,
+    handleDatabase: handleDatabase,
   };
 
   return (

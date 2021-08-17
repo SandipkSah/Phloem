@@ -8,11 +8,6 @@ export default function CartItem({ item, value, cartType }) {
   const { removeItemFromCart, removeItemFromAdded } = useProduct();
   const [invoke, setInvoke] = useState(false);
 
-  //useEffect(() => {}, [invoke]);
-
-  console.log("from cart ITem the cart type is ", cartType);
-
-  console.log(removeItemFromCart, "and", removeItemFromAdded);
 
   return (
     <div className="row my-1 text-capitalize text-center">
@@ -37,7 +32,7 @@ export default function CartItem({ item, value, cartType }) {
           onClick={() => {
             cartType === "added"
               ? removeItemFromAdded(id)
-              : removeItemFromCart(item);
+              : removeItemFromCart(id);
               setInvoke(!invoke)
             console.log("impement function here");
           }}

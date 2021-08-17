@@ -4,11 +4,12 @@ import "../css/AddRequest.css";
 import Navbar from "../Navbar";
 import { useProduct } from "../ProductContext";
 import firebase from "firebase";
+import { Button } from "bootstrap";
 
 export default function AddRequest() {
   const history = useHistory();
   const [fileData, setFileData] = useState();
-  const { addRequests, uploadRef } = useProduct();
+  const { addRequests, uploadRef, handleDatabase } = useProduct();
 
   let userinfo = {};
 
@@ -52,7 +53,7 @@ export default function AddRequest() {
           description: event.target.description.value,
           timestamp: new Date(),
           requestingParty: userinfo,
-          addedToCart:false,
+          addedToCart: false,
           img: resultingURL,
         };
         addRequests(requestObjPublic);
@@ -66,6 +67,8 @@ export default function AddRequest() {
   return (
     <div>
       <Navbar />
+      {/* <button onClick={handleDatabase()} style={{width:"5rem", height:"3rem"}}>test Button</button> */}
+
       {/* {addRequests()} */}
       <div className="contact_form" id="Write">
         <h2
@@ -74,6 +77,7 @@ export default function AddRequest() {
         >
           Make a request
         </h2>
+
         <div className="container">
           <div className="wrapper animated bounceInLeft">
             <div className="contact" id="contactMe">
@@ -152,11 +156,11 @@ export default function AddRequest() {
                         e.target.files[0]
                       );
                       setFileData(e.target.files[0]);
+                      // handleDatabase()
                     }}
-
-                    // className="input_box"
                   />
                 </p>
+
                 <p className="full">
                   <label>
                     Description<span style={{ color: "red" }}>*</span>{" "}

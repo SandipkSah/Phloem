@@ -9,10 +9,13 @@ export default function ProductList() {
     <div className="py-5">
       <div className="container">
         <Title name="Available" title="Request" />
-        <div className="row" style={{"margin":"auto"}}>
-          {publicProducts.map((eachProduct) => (
-            <Product key={eachProduct.id} product={eachProduct} />
-          ))}
+        <div className="row" style={{ margin: "auto" }}>
+          {publicProducts.map(
+            (eachProduct) =>
+              !eachProduct.addedToCart && (
+                <Product key={eachProduct.id} product={eachProduct} />
+              )
+          )}
         </div>
       </div>
     </div>
