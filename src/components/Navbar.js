@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { Alert, Button, Form, FormControl } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useAuth } from "../contexts/AuthContext";
-import firebase from "firebase";
 import { useProduct } from "./ProductContext";
 
 export default function NavbarCustom() {
@@ -13,18 +12,8 @@ export default function NavbarCustom() {
   const history = useHistory();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { getUserLoginInfo } = useProduct();
 
-  let userData = {};
-
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      userData = { userID: user.uid, userEmail: user.email };
-    }
-  });
-
-  const getUserLoginInfo = () => {
-    return userData;
-  };
 
   const handleSubmitNewRequest = () => {
     history.push("/addrequests");
@@ -93,10 +82,9 @@ export default function NavbarCustom() {
             />
             <Button variant="outline-success">Search</Button>
           </Form>
-
+          <p>{getUserLoginInfo()}</p>
           <Nav.Link
             onClick={() => {
-              // console.log("logggggggggggnh outtttttttt");
               handleLogout();
             }}
             className="button_comp"

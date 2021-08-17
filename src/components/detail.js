@@ -5,12 +5,12 @@ import { useProduct } from "./ProductContext";
 import { Button } from "react-bootstrap";
 
 export default function Detail() {
-  const { handleDetail, userState } = useProduct();
+  const {  userState } = useProduct();
   const { detailProduct } = userState;
   console.log("the detail product is ", detailProduct);
   const {
     title,
-    id,
+    // id,
     img,
     expectedPlace,
     priceRange,

@@ -9,7 +9,7 @@ import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 export default function Product(props) {
   const { handleDetail, addToCart } = useProduct();
 
-  const { title, id,img,  expectedPlace, priceRange, description } =
+  const { title, id,img,   priceRange} =
     props.product;
   const price = priceRange;
 
@@ -45,6 +45,7 @@ export default function Product(props) {
             {price}
           </h5>
         </div>
+        
       </div>
     </ProductWrapper>
   );

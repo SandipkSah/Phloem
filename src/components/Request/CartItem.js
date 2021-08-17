@@ -1,10 +1,10 @@
-import React,{useEffect, useState} from "react";
+import React,{ useState} from "react";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useProduct } from "../ProductContext";
 
 export default function CartItem({ item, value, cartType }) {
-  const { id, title, img, priceRange, total } = item;
+  const { id, title, img, priceRange} = item;
   const { removeItemFromCart, removeItemFromAdded } = useProduct();
   const [invoke, setInvoke] = useState(false);
 

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useProduct } from "./ProductContext";
 
 export default function Modal() {
-  const { openModal, closeModal } = useProduct();
+  // const { openModal, closeModal } = useProduct();
 
   console.log("useProddddddddddddd", useProduct)
   return (

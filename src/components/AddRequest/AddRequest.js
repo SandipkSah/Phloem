@@ -4,19 +4,16 @@ import "../css/AddRequest.css";
 import Navbar from "../Navbar";
 import { useProduct } from "../ProductContext";
 import firebase from "firebase";
-import { Button } from "bootstrap";
 
 export default function AddRequest() {
   const history = useHistory();
   const [fileData, setFileData] = useState();
-  const { addRequests, uploadRef, handleDatabase } = useProduct();
+  const { addRequests, uploadRef} = useProduct();
 
   let userinfo = {};
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      // console.log(" from add request user is", user.uid);
-      // console.log("and his email is ", user.email);
       userinfo = { id: user.uid, email: user.email };
     }
   });
@@ -69,7 +66,6 @@ export default function AddRequest() {
       <Navbar />
       {/* <button onClick={handleDatabase()} style={{width:"5rem", height:"3rem"}}>test Button</button> */}
 
-      {/* {addRequests()} */}
       <div className="contact_form" id="Write">
         <h2
           className="section-title section-title-contact-me"

@@ -3,7 +3,6 @@ import { db } from "../firebase";
 import firebase from "firebase";
 import "firebase/storage";
 
-// const batch = firebase.batch();
 
 const ProductContext = React.createContext();
 
@@ -14,16 +13,20 @@ export function useProduct() {
 export default function ProductProvider({ children }) {
   let tempPublicProduct = [];
   var userID = "";
-  let userEmail = "";
-  // const [newData, setNewData] = useState("")
-
+  var userEmail = "";
+  
+  // const [userID, setuserID] = useState("")
+  // const [userEmail, setuserEmail] = useState("")
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       userID = user.uid;
-      userEmail = user.email;
-      console.log("the current user is :", userID, userEmail);
+      userEmail =user.email;
+    //   setuserID(user.uid)
+    //   setuserEmail(user.email);
+    // }
     }
   });
+  console.log("the current user is :", userID, userEmail);
 
   const [userProductState, setUserProductState] = useState({
     addedProducts: [],
@@ -140,7 +143,7 @@ export default function ProductProvider({ children }) {
     //The above code adds data to user data collection
     setPosts();
     setUserData();
-    setRerenderInvoke(!rerenderInvoke)
+    setRerenderInvoke(!rerenderInvoke);
   };
 
   const addToCart = (id) => {
@@ -195,12 +198,9 @@ export default function ProductProvider({ children }) {
   };
 
   const removeItemFromCart = async (id) => {
-    // console.log("user DAta are ;;;;;;;", userProductState.cartOfUser);
     userProductState.cartOfUser = userProductState.cartOfUser.filter(
-      (eachCartProduct) => eachCartProduct.id != id
+      (eachCartProduct) => eachCartProduct.id !== id
     );
-    // console.log("--------------------------------", id);
-    // console.log("user DAta are ;;;;;;;", userProductState.cartOfUser);
     db.collection("users data")
       .doc(userID)
       .update({ cartOfUser: userProductState.cartOfUser })
@@ -213,14 +213,14 @@ export default function ProductProvider({ children }) {
         )
       );
     db.collection("public_posts").doc(id).update({ addedToCart: false });
-    setRerenderInvoke(!rerenderInvoke)
+    setRerenderInvoke(!rerenderInvoke);
   };
 
   const removeItemFromAdded = async (id) => {
     const tempPost = getItem(id);
 
     userProductState.addedProducts = userProductState.addedProducts.filter(
-      (eachAddedPost) => eachAddedPost.id != id
+      (eachAddedPost) => eachAddedPost.id !== id
     );
     await db
       .collection("users data")
@@ -289,8 +289,13 @@ export default function ProductProvider({ children }) {
     //   .then(() => console.log("data updated with :", tempHandleDBVar));
   };
 
+  const getUserLoginInfo = () => {
+    console.log("userEmail is ::::", userEmail);
+    return userEmail;
+  };
+
   const value = {
-    // getUserLoginInfo: getUserLoginInfo,
+    getUserLoginInfo: getUserLoginInfo,
     userState: userProductState,
     publicProducts: publicProducts,
     addRequests: addRequests,
