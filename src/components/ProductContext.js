@@ -11,8 +11,7 @@ export function useProduct() {
 
 export default function ProductProvider({ children }) {
   let tempPublicProduct = [];
-  // var userIDtest = "";
-  //  let userEmail = "-----";
+
 
   const [userID, setuserID] = useState(
     firebase.auth().currentUser ? firebase.auth().currentUser.uid : null
