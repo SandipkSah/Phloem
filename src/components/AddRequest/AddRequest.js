@@ -8,7 +8,7 @@ import firebase from "firebase";
 export default function AddRequest() {
   const history = useHistory();
   const [fileData, setFileData] = useState();
-  const { addRequests, uploadRef} = useProduct();
+  const { addRequests, uploadRef,handleDatabase } = useProduct();
 
   let userinfo = {};
 
@@ -24,11 +24,12 @@ export default function AddRequest() {
     "Food",
     "Books",
     "Souveneir",
+    "Giveaway",
     "Other",
   ];
 
   const PriceOptions = [
-    "0",
+    "0 EUR",
     "0-50 EUR",
     "50-100 EUR",
     "100-200 EUR",
@@ -39,7 +40,7 @@ export default function AddRequest() {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    console.log("the file from handleform subit is ", fileData);
+    // console.log("the file from handleform subit is ", fileData);
     uploadRef(fileData, event.target.title.value)
       .then((resultingURL) => {
         const requestObjPublic = {
@@ -64,7 +65,12 @@ export default function AddRequest() {
   return (
     <div>
       <Navbar />
-      {/* <button onClick={handleDatabase()} style={{width:"5rem", height:"3rem"}}>test Button</button> */}
+      <button
+        onClick={handleDatabase()}
+        style={{ width: "5rem", height: "3rem" }}
+      >
+        DB modify
+      </button>
 
       <div className="contact_form" id="Write">
         <h2
@@ -110,7 +116,7 @@ export default function AddRequest() {
                 <p>
                   <label>
                     Expected Place of finding
-                    <span style={{ color: "red" }}>*</span>
+                    {/* <span style={{ color: "red" }}>*</span> */}
                   </label>
                   <input
                     type="text"
@@ -141,18 +147,17 @@ export default function AddRequest() {
                 <p>
                   <label>
                     Upload image
-                    <span style={{ color: "red" }}>*</span>
+                    {/* <span style={{ color: "red" }}>*</span> */}
                   </label>
                   <input
                     type="file"
                     name="img"
                     onChange={(e) => {
                       console.log(
-                        "the file isssssssssssssss",
+                        "the inputted file is",
                         e.target.files[0]
                       );
                       setFileData(e.target.files[0]);
-                      // handleDatabase()
                     }}
                   />
                 </p>

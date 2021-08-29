@@ -30,11 +30,7 @@ export default function NavbarCustom() {
   };
 
   const handleSearch = () => {
-    // console.log("hhhhhhhhhh::::::", searchString.current.value);
-    // console.log("enter hadndlllffl");
-    // console.log("oooooooooooo",setSearchString(searchString.current.value))
     setSearchString(searchString.current.value);
-    // console.log("the search param is ",searchString)
   };
 
   const handleLogout = async () => {
@@ -62,7 +58,7 @@ export default function NavbarCustom() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
-          <Nav
+          {/* <Nav
             className="mr-auto my-2 my-lg-0"
             style={{ maxHeight: "100px" }}
             navbarScroll
@@ -72,29 +68,17 @@ export default function NavbarCustom() {
               className="button_comp"
               disabled={loading}
             >
-              Requests
+              My Requests
             </Nav.Link>
             <Nav.Link
               onClick={() => handleSubmitNewRequest()}
               className="button_comp"
               disabled={loading}
             >
-              Add Requests
+              Make a Request
             </Nav.Link>
-          </Nav>
+          </Nav> */}
 
-          {/* <Form className="d-flex search_button">
-            <FormControl
-              type="search"
-              placeholder="Start typing...."
-              className="mr-2"
-              aria-label="Search"
-              ref={searchString}
-              onChange={() => {
-                handleSearch();
-              }}
-            />
-          </Form> */}
           <input
             type="search"
             placeholder="Start typing to search...."
@@ -105,19 +89,43 @@ export default function NavbarCustom() {
               handleSearch();
             }}
           ></input>
+
+          <Nav
+            className="mr-auto my-2 my-lg-0"
+            style={{ maxHeight: "100px" }}
+            navbarScroll
+          >
+            <Nav.Link
+              onClick={() => handleSubmitMyRequest()}
+              className="button_comp"
+              disabled={loading}
+            >
+              My Requests
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => handleSubmitNewRequest()}
+              className="button_comp"
+              disabled={loading}
+            >
+              Make a Request
+            </Nav.Link>
+          </Nav>
+
           <Nav.Link
             onClick={() => {
               handleLogout();
             }}
           >
-          <p style={{ cursor: "pointer"}}>
-            
-            <ExitToAppIcon style={{ cursor: "pointer", marginRight: "10px" }} />
-            ({userEmail})
-          </p>
+            <p style={{ cursor: "pointer", color: "black" }}>
+              <ExitToAppIcon
+                style={{ cursor: "pointer", marginRight: "10px" }}
+              />
+              ({userEmail})
+            </p>
           </Nav.Link>
         </Navbar.Collapse>
       </Navbar>
+
       {error && (
         <Alert variant="danger" style={{ textAlign: "center", margin: "auto" }}>
           {error}

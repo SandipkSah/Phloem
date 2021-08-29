@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useProduct } from "./ProductContext";
 import { Button } from "react-bootstrap";
-import { db } from "../firebase";
 
 export default function Detail() {
   const { detailProduct, addToCart } = useProduct();
-  //const { detailProduct } = userState;
   console.log("the detail product is ", detailProduct);
   const {
     title,
@@ -16,87 +14,72 @@ export default function Detail() {
     priceRange,
     description,
     requestingParty,
-    addedToCart,
+    // addedToCart,
   } = detailProduct;
   const [yesAddedTocart, setYesAddedTocart] = useState(false);
   const changeText = async (id) => {
-    console.log("///", id);
-    await db
-      .collection("public_posts")
-      .doc(id)
-      .get()
-      .then((doc) => {
-        console.log("///", doc.data());
-        if (doc.data().addedToCart) {
-          setYesAddedTocart(true);
-          console.log("yes added");
-        } else {
-          setYesAddedTocart(false);
-        }
-      });
+    setYesAddedTocart(true);
   };
-  useEffect(() => {
-    console.log("running useEffect of detail");
-  }, [setYesAddedTocart]);
+  useEffect(() => {}, [setYesAddedTocart]);
+
   return (
-    <div className="container py-5">
-      {console.log("added to Cart", addedToCart)}
-      <div className="row">
-        <div className="col-10 mx-auto  text-center text-slanted text-blue my-5">
+    <div className="detail_container single_product">
+      <div className="detail_row">
+        <div className="column-2">
+          <img
+            src={
+              img === ""
+                ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1280px-No_image_3x4.svg.png"
+                : img
+            }
+            width="100%"
+          />
+        </div>
+        <div className="column-2">
           <h1>{title}</h1>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-10 mx-auto col-md-6 my-3">
-          <img src={img} alt="product" className="img-fluid" />
-        </div>
-        <div className="col-10 col-md-6 my-3 text-capitalize">
-          <h4 className="text-blue">
-            <strong>Requested by? :{requestingParty.email}</strong>
-          </h4>
-
-          <p>How much S/he can pay? :{priceRange}</p>
-
-          <p>Where Can You find it? :{expectedPlace}</p>
-
-          <div className="container ">
-            <p className="text-muted ">Description:{description}</p>
-          </div>
-
-          <div className="mt-auto">
-            <Link to="/">
-              <Button
-                className="btn btn-secondary"
-                style={{ margin: "1rem", padding: "1rem", borderRadius: "40%" }}
-              >
-                Back to home
-              </Button>
-            </Link>{" "}
-            {!yesAddedTocart ? (
-              <Button
-                style={{ margin: "1rem", padding: "1rem", borderRadius: "40%" }}
-                onClick={() => {
-                  addToCart(id);
-                  changeText(id);
-                  // window.location.reload()
-                }}
-              >
-                Add to Cart
-              </Button>
-            ) : (
-              <Button
-                style={{
-                  margin: "1rem",
-                  padding: "1rem",
-                  borderRadius: "40%",
-                  color: "grey",
-                }}
-                disabled
-              >
-                ---------------
-              </Button>
-            )}
-          </div>
+          <p>Requested by {requestingParty.email}</p>
+          <h4>Expected Price: {priceRange}</h4>
+          <Link to="/">
+            <Button
+              className="btn btn-info"
+              style={{ margin: "1rem", padding: "1rem", borderRadius: "40%" }}
+            >
+              Back to home
+            </Button>
+          </Link>
+          {!yesAddedTocart ? (
+            <Button
+              className="btn btn-success"
+              style={{ margin: "1rem", padding: "1rem", borderRadius: "40%" }}
+              onClick={() => {
+                addToCart(id);
+                changeText(id);
+                // window.location.reload()
+              }}
+            >
+              Fulfill Request
+            </Button>
+          ) : (
+            <Button
+              style={{
+                margin: "1rem",
+                padding: "1rem",
+                borderRadius: "40%",
+                backgroundColor: "grey",
+              }}
+              disabled
+            >
+              Request Accepted
+            </Button>
+          )}
+          <h3>Product Detail</h3>
+          <p>{description === "" ? "No description given" : description}</p>
+          <br />
+          <br />
+          <h5>Expected Place of finding</h5>
+          <p>
+            {expectedPlace === "" ? "No expectedPlace given" : expectedPlace}
+          </p>
         </div>
       </div>
     </div>

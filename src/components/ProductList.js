@@ -9,7 +9,7 @@ export default function ProductList() {
   );
 
   return (
-    <div className="small-container">
+    <div className="product_list-container">
       <h2>Available Requests</h2>
       <div className="row">
         {/* {publicProducts.map( */}

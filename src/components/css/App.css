@@ -37,14 +37,16 @@
   }
 }
 
+/* ------------------------PRODUCT STYLING------------------------------------- */
 
-.navbar_comp{
+.navbar_comp {
   height: 8vh;
-  background-color: rgb(134, 207, 124) !important;
+  background-color: rgb(185, 228, 180) !important;
 }
 
 .search_button {
-  margin: auto;
+  margin-left: 24%;
+  margin-right: 12%;
   width: 40%;
   border-radius: 1rem;
   outline: none;
@@ -55,7 +57,7 @@
 
 .button_comp {
   cursor: pointer;
-  border-radius: 0.5rem;
+  border-radius: 15px;
 }
 
 .button_comp:hover {
@@ -64,10 +66,9 @@
 }
 
 .container {
-  max-width: 1300px;
-  margin: auto;
-  padding-left: 25px;
-  padding-right: 25px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .row {
@@ -81,7 +82,7 @@
   margin: 70px 0;
 }
 
-.small-container {
+.product_list-container {
   max-width: 90%;
   margin: auto;
   padding-left: 25px;
@@ -109,11 +110,9 @@
   width: 100%;
   height: 300px;
   max-height: 300px;
-  /* height: 100%; */
-  /* object-fit: contain; */
 }
 
-.small-container h2 {
+.product_list-container h2 {
   color: #555;
   font-weight: normal;
   text-align: center;
@@ -126,18 +125,83 @@
 
 .cart-button {
   font-size: 30px;
-  background-color: rgb(219, 190, 155);
+  background-color: rgb(231, 216, 190);
   border-radius: 20%;
   width: 20%;
   position: absolute;
-  bottom: 2.5rem;
+  bottom: 5.5rem;
   right: -4rem;
   opacity: 0;
   transition: 0.5s;
 }
 
+.view_detail-button {
+  font-size: 30px;
+  background-color: rgb(231, 216, 190);
+  width: 92.5%;
+  position: absolute;
+  top: -2.5rem;
+  opacity: 0;
+  transition: 1s;
+}
+
 .col-4:hover .cart-button {
-  bottom: 7rem;
+  bottom: 9rem;
   right: 1.4rem;
-  opacity: 1;
+  opacity: 0.5;
+}
+
+.col-4:hover .view_detail-button {
+  top: 35%;
+  /* right: 1.4rem; */
+  opacity: 0.7;
+}
+
+/* ------------------------------PRODUCT DETAIL STYLING------------------------ */
+
+.detail_container {
+  max-width: 50%;
+  margin: auto;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.detail_row {
+  display: flex;
+  background-color: rgb(219, 243, 219);
+}
+
+.column-2 {
+  flex: 50% !important;
+  margin: auto;
+}
+
+.single_product {
+  margin-top: 80px;
+}
+
+.single_product .column-2 h1 {
+  margin-top: 30px;
+}
+
+.single_product .column-2 img {
+  padding: 0;
+  max-height: 380px;
+  /* background-size: contain; */
+  max-width: 380px;
+}
+
+.single_product .column-2 {
+  padding: 0px;
+}
+
+.single_product_child {
+  border-radius: 2rem;
+}
+
+.single_product_child h4 {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 22px;
+  font-weight: bold;
 }

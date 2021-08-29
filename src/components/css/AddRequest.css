@@ -37,7 +37,7 @@
 }
 
 .contact form button {
-  background: #a1e9f3;
+  background: #59c470;
   border: 0;
   text-transform: uppercase;
   cursor: pointer;
@@ -47,8 +47,8 @@
 .contact form button:focus {
   color: rgb(7, 12, 17);
   outline: 0;
-  background-color: aqua;
-  transition: background-color 1s ease-out;
+  background-color: rgb(24, 221, 74);
+  transition: background-color 0.25s ease-out;
 }
 
 .input_box {

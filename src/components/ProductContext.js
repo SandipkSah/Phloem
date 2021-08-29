@@ -32,7 +32,7 @@ export default function ProductProvider({ children }) {
   const [publicProducts, setpublicProducts] = useState([]);
   const [rerenderInvoke, setRerenderInvoke] = useState(false);
   const [detailProduct, setDetailProduct] = useState({});
-  const  [searchString, setSearchString] = useState("")
+  const [searchString, setSearchString] = useState("");
 
   useEffect(() => {
     userID && setUserData();
@@ -56,7 +56,7 @@ export default function ProductProvider({ children }) {
   };
 
   const setUserData = () => {
-    console.log("entering setUserData");
+    // /console.log("entering setUserData");
     var docExist = true;
     db.collection("users data")
       .doc(userID)
@@ -68,11 +68,11 @@ export default function ProductProvider({ children }) {
             modalProduct: {},
             modalOpen: false,
           });
-          console.log(
-            "after setting the datas, the user data are",
-            userProductState
-          );
-        } 
+          // console.log(
+          //   "after setting the datas, the user data are",
+          //   userProductState
+          // );
+        }
         // else {
         //   docExist = false;
         //   console.log("the userdata with userID:", userID, "doesnot exist");
@@ -99,18 +99,11 @@ export default function ProductProvider({ children }) {
       .doc()
       .set(addedPost)
       .then((res) => {
-        console.log("a post added to the public posts");
+        console.log("a post added to the public Request");
       })
       .catch(() => {
         console.log("Error while making post");
       });
-  };
-
-  const removeItemFromPublic = (id) => {
-    db.collection("public_posts").doc(id).delete();
-    console.log("object with object id ", id, "is deleted");
-    setPosts();
-    setUserData();
   };
 
   const addRequests = async (addedPost) => {
@@ -144,6 +137,7 @@ export default function ProductProvider({ children }) {
       });
 
     //The above code adds data to user data collection
+
     setPosts();
     setUserData();
     setRerenderInvoke(!rerenderInvoke);
@@ -186,18 +180,13 @@ export default function ProductProvider({ children }) {
     setDetailProduct(product);
   };
 
-  const openModal = (id) => {
-    const product = getItem(id);
-    let tempProductState = userProductState;
-    tempProductState.modalProduct = product;
-    tempProductState.modalProduct = true;
-    setUserProductState(tempProductState);
-  };
-
-  const closeModal = () => {
-    let tempProductState = userProductState;
-    tempProductState.modalProduct = false;
-    setUserProductState(tempProductState);
+  const removeItemFromPublic = async (id) => {
+    console.log("Before removing an object from db:", publicProducts);
+    await db.collection("public_posts").doc(id).delete();
+    console.log("object with object id ", id, "is deleted");
+    setPosts();
+    console.log("After removing an object from db:", publicProducts);
+    setUserData();
   };
 
   const removeItemFromCart = async (id) => {
@@ -225,6 +214,8 @@ export default function ProductProvider({ children }) {
     userProductState.addedProducts = userProductState.addedProducts.filter(
       (eachAddedPost) => eachAddedPost.id !== id
     );
+
+    console.log("The item to be removed is :", tempPost);
     await db
       .collection("users data")
       .doc(userID)
@@ -234,6 +225,12 @@ export default function ProductProvider({ children }) {
       .then(() => {
         console.log(
           "product removed from addedProducts, the product is",
+          tempPost
+        );
+      })
+      .catch(() => {
+        console.log(
+          "Errorrrrrrrrr in removing products from addedProducts",
           tempPost
         );
       });
@@ -259,8 +256,11 @@ export default function ProductProvider({ children }) {
   };
 
   const uploadRef = async (file, newName) => {
-    console.log("the file is ", file);
-    let imageURL = "";
+    // console.log("the file is ", file);
+    let imageURL =
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/No_image_3x4.svg/1280px-No_image_3x4.svg.png";
+    //default image in ncase there is no file uploaded
+    // console.log("the file is ::", file);
 
     await firebase
       .storage()
@@ -273,46 +273,39 @@ export default function ProductProvider({ children }) {
           imageURL = url;
         });
       });
-    console.log("the image URL before returning");
     return imageURL;
   };
 
   const handleDatabase = () => {
-    console.log("handling database.........");
+    // console.log("handling database.........");
     // console.log("the length of public productttttttttttt", publicProducts);
-    // let tempHandleDBVar = [];
-    // publicProducts.map((eachPublicPost) => {
-    //   eachPublicPost.requestingParty.id == userID
-    //     ? tempHandleDBVar.push(eachPublicPost)
-    //     : console.log("NOTOFINTEREST");
-    // });
-    // db.collection("users data")
-    //   .doc(userID)
-    //   .update({ addedProducts: tempHandleDBVar })
-    //   .then(() => console.log("data updated with :", tempHandleDBVar));
+    let tempHandleDBVar = [];
+    publicProducts.map((eachPublicPost) => {
+      eachPublicPost.requestingParty.id === userID
+        ? tempHandleDBVar.push(eachPublicPost)
+        : console.log("NOTOFINTEREST");
+    });
+    db.collection("users data")
+      .doc(userID)
+      .update({ addedProducts: tempHandleDBVar })
+      .then(() => console.log("data updated with :", tempHandleDBVar));
   };
 
-
-
   const value = {
-    // getUserLoginInfo: getUserLoginInfo,
     userState: userProductState,
     detailProduct: detailProduct,
     publicProducts: publicProducts,
     addRequests: addRequests,
     handleDetail: handleDetail,
     addToCart: addToCart,
-    openModal: openModal,
-    closeModal: closeModal,
     removeItemFromCart: removeItemFromCart,
     removeItemFromAdded: removeItemFromAdded,
     clearCart: clearCart,
     uploadRef: uploadRef,
     handleDatabase: handleDatabase,
     userEmail: userEmail,
-    setSearchString:setSearchString,
-    searchString:searchString,
-    
+    setSearchString: setSearchString,
+    searchString: searchString,
   };
 
   return (

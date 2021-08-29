@@ -113,21 +113,7 @@
   /* -----------------------FEATURED */
 }
 
-{
-  /* <div className="py-5">
-        <div className="container">
-          <Title name="Available" title="Request" />
-          <div className="row" style={{ margin: "auto" }}>
-            {publicProducts.map(
-              (eachProduct) =>
-                !eachProduct.addedToCart && (
-                  <Product key={eachProduct.id} product={eachProduct} />
-                )
-            )}
-          </div>
-        </div>
-      </div> */
-}
+
 
 // firebase.auth().onAuthStateChanged((user) => {
 //   if (user) {
@@ -191,3 +177,65 @@
               Search
             </Button> */
 }
+
+    // <div className="container py-5">
+    //   {console.log("added to Cart", addedToCart)}
+    //   <div className="row">
+    //     <div className="col-10 mx-auto  text-center text-slanted text-blue my-5">
+    //       <h1>{title}</h1>
+    //     </div>
+    //   </div>
+    //   <div className="row">
+    //     <div className="col-10 mx-auto col-md-6 my-3">
+    //       <img src={img} alt="product" className="img-fluid" />
+    //     </div>
+    //     <div className="col-10 col-md-6 my-3 text-capitalize">
+    //       <h4 className="text-blue">
+    //         <strong>Requested by? :{requestingParty.email}</strong>
+    //       </h4>
+
+    //       <p>How much S/he can pay? :{priceRange}</p>
+
+    //       <p>Where Can You find it? :{expectedPlace}</p>
+
+    //       <div className="container ">
+    //         <p className="text-muted ">Description:{description}</p>
+    //       </div>
+
+    //       <div className="mt-auto">
+    //         <Link to="/">
+    //           <Button
+    //             className="btn btn-primary"
+    //             style={{ margin: "1rem", padding: "1rem", borderRadius: "40%" }}
+    //           >
+    //             Back to home
+    //           </Button>
+    //         </Link>{" "}
+    //         {!yesAddedTocart ? (
+    //           <Button
+    //             style={{ margin: "1rem", padding: "1rem", borderRadius: "40%" }}
+    //             onClick={() => {
+    //               addToCart(id);
+    //               changeText(id);
+    //               // window.location.reload()
+    //             }}
+    //           >
+    //             Add to Cart
+    //           </Button>
+    //         ) : (
+    //           <Button
+    //             style={{
+    //               margin: "1rem",
+    //               padding: "1rem",
+    //               borderRadius: "40%",
+    //               backgroundColor: "grey",
+    //             }}
+    //             disabled
+    //           >
+    //             Added to Cart
+    //           </Button>
+    //         )}
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>

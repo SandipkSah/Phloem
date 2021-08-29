@@ -52,15 +52,15 @@ export default function MyRequest() {
             <CartList cartType="added" passedCartArray={addedProducts} />
           </div>
         )}
-        <Title name="" title="Requests in Cart" />
+        <Title name="" title="Requests Accepted" />
         {!cartOfUser?.length ? (
           <div>
             <Card
               className="container text-center"
               style={{ marginTop: "auto", padding: "2rem" }}
             >
-              <p>You have not added any Request to Cart</p>
-              <p>Please Go to Product List to add to cart</p>
+              <p>Currently you have not accepted any request</p>
+              <p>Please Go to Request List to add to cart</p>
               <Button
                 className="m-auto"
                 variant="primary"
@@ -68,7 +68,7 @@ export default function MyRequest() {
                   handleButtonClickAccepted();
                 }}
               >
-                Product List
+                Request List
               </Button>
             </Card>
           </div>

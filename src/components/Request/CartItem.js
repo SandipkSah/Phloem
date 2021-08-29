@@ -34,7 +34,8 @@ export default function CartItem({ item, value, cartType }) {
               ? removeItemFromAdded(id)
               : removeItemFromCart(id);
               setInvoke(!invoke)
-            console.log("impement function here");
+            // console.log("impement function here");
+            // window.location.reload()
           }}
         >
           <IconButton aria-label="delete" style={{ color: "#dab057" }}>
