@@ -14,10 +14,12 @@ export default function ProductProvider({ children }) {
   // var userIDtest = "";
   //  let userEmail = "-----";
 
-  const [userID, setuserID] = useState(firebase.auth().currentUser.uid);
-  // var userID = "";
-
-  const [userEmail, setuserEmail] = useState(firebase.auth().currentUser.email);
+  const [userID, setuserID] = useState(
+    firebase.auth().currentUser ? firebase.auth().currentUser.uid : null
+  );
+  const [userEmail, setuserEmail] = useState(
+    firebase.auth().currentUser ? firebase.auth().currentUser.email : null
+  );
 
   const [userProductState, setUserProductState] = useState({
     addedProducts: [],
