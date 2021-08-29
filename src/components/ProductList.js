@@ -1,16 +1,19 @@
 import React from "react";
 import Product from "./Product";
-import Title from "./Title";
 import { useProduct } from "./ProductContext";
-// import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 
 export default function ProductList() {
-  const { publicProducts } = useProduct();
+  const { publicProducts, searchString } = useProduct();
+  const newpublicProducts = publicProducts.filter((eachProduct) =>
+    eachProduct.title.toLowerCase().includes(searchString)
+  );
+
   return (
     <div className="small-container">
       <h2>Available Requests</h2>
       <div className="row">
-        {publicProducts.map(
+        {/* {publicProducts.map( */}
+        {newpublicProducts.map(
           (eachProduct) =>
             !eachProduct.addedToCart && (
               <Product key={eachProduct.id} product={eachProduct} />
@@ -19,6 +22,4 @@ export default function ProductList() {
       </div>
     </div>
   );
-
- 
 }

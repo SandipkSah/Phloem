@@ -11,9 +11,6 @@ export default function Product(props) {
 
   const { title, id, img, priceRange } = props.product;
 
-  const defaultImg =
-    "https://assets.hongkiat.com/uploads/famous-brands-make-unexpected-products/lipton-cigarette.jpg?newedit";
-
   return (
     <div
       className="col-4"
@@ -22,9 +19,9 @@ export default function Product(props) {
       }}
     >
       <Link to="/detail">
-        <img src={img} alt="img" />
+        <img src={img} alt="img" className="imgframe"/>
       </Link>
-      <h4>{title}</h4>
+      <h4 >{title}</h4>
       <p>{priceRange}</p>
       <button
         className="cart-button"

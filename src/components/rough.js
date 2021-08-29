@@ -1,37 +1,34 @@
-    // <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3 productWrapper">
-    //   <div className="card ">
-    //     <div
-    //       className="img-container p-5"
-    //       onClick={() => {
-    //         handleDetail(id);
-    //       }}
-    //     >
-    //       <Link to="/detail">
-    //         <img src={img||defaultImg} alt="img" width="50px" height="200px" className="card-img-top" />
-    //       </Link>
-    //       <IconButton
-    //         aria-label="delete"
-    //         className="cart-btn display-4"
-    //         onClick={() => {
-    //           addToCart(id);
-    //         }}
-    //       >
-    //         <AddShoppingCartIcon />
-    //       </IconButton>
-    //     </div>
-    //     <div className="card-footer d-flex justify-content-between">
-    //       <p className="align-self-center mb-0">{title}</p>
-    //       <h5 className="text-blue font-italic mb-0">
-    //         <span className="mr-1">$</span>
-    //         {price}
-    //       </h5>
-    //     </div>
+// <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3 productWrapper">
+//   <div className="card ">
+//     <div
+//       className="img-container p-5"
+//       onClick={() => {
+//         handleDetail(id);
+//       }}
+//     >
+//       <Link to="/detail">
+//         <img src={img||defaultImg} alt="img" width="50px" height="200px" className="card-img-top" />
+//       </Link>
+//       <IconButton
+//         aria-label="delete"
+//         className="cart-btn display-4"
+//         onClick={() => {
+//           addToCart(id);
+//         }}
+//       >
+//         <AddShoppingCartIcon />
+//       </IconButton>
+//     </div>
+//     <div className="card-footer d-flex justify-content-between">
+//       <p className="align-self-center mb-0">{title}</p>
+//       <h5 className="text-blue font-italic mb-0">
+//         <span className="mr-1">$</span>
+//         {price}
+//       </h5>
+//     </div>
 
-    //   </div>
-    // </ProductWrapper>
-
-
-
+//   </div>
+// </ProductWrapper>
 
 // const ProductWrapper = styled.div`
 //   .card {
@@ -86,10 +83,8 @@
 //   }
 // `;
 
-
-
 {
-    /* <div className="categories">
+  /* <div className="categories">
         <div className="small-container">
           <div className="row">
             <div className="col-3">
@@ -113,13 +108,13 @@
           </div>
         </div>
       </div> */
-  }
-  {
-    /* -----------------------FEATURED */
-  }
+}
+{
+  /* -----------------------FEATURED */
+}
 
-  {
-    /* <div className="py-5">
+{
+  /* <div className="py-5">
         <div className="container">
           <Title name="Available" title="Request" />
           <div className="row" style={{ margin: "auto" }}>
@@ -132,4 +127,67 @@
           </div>
         </div>
       </div> */
-  }
+}
+
+// firebase.auth().onAuthStateChanged((user) => {
+//   if (user) {
+//     // userIDtest = user.uid;
+//     console.log("ussssssssssss", user.uid);
+//     let teeem = user.uid;
+//     setuserID(teeem);
+//     console.log("ussssssssssss", userID);
+//     // userID = user.uid;
+//     // window.userEmail = user.email;
+//     console.log("user is sss", userID);
+//     setuserEmail(user.email);
+//     setUserData();
+//     setPosts();
+//     // console.log("windows email is ", window.userEmail);
+//   }
+// });
+// var user = firebase.auth().currentUser;
+
+// console.log("from currentuser is:", user.uid);
+// setuserID(user.uid);
+// if (user.uid) {
+//   setUserData();
+//   setPosts();
+// }
+// console.log("Running App useEffect...");
+
+// const authListener = firebase.auth().onAuthStateChanged((authUser) => {
+//   // console.log(authUser);
+//   console.log(authUser.uid);
+
+//   if (authUser) {
+//     setuserID(authUser.uid);
+//     console.log("-------------------------", userID);
+//     // setAuthWasListened(true);
+//   } else {
+//     setuserID(null);
+//     // setAuthWasListened(true);
+//   }
+// });
+// setUserData();
+// setPosts();
+// console.log("the userID from setuserID with new implement", userID);
+// console.log("runnug from useEffect",firebase.auth().currentUser)
+
+// setuserID(firebase.auth().currentUser.uid)
+// console.log("runnug from useEffect",tempuserdetail)
+// const getUserLoginInfo = () => {
+//   console.log("userEmail is ::::", userEmail);
+//   return userEmail;
+// };
+
+{
+  /* <Button
+              variant="outline-success"
+              // onClick={() => {
+              //   // console.log("--------------")
+              //   handleSearch();
+              // }}
+            >
+              Search
+            </Button> */
+}

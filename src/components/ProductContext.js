@@ -3,7 +3,6 @@ import { db } from "../firebase";
 import firebase from "firebase";
 import "firebase/storage";
 
-
 const ProductContext = React.createContext();
 
 export function useProduct() {
@@ -12,21 +11,13 @@ export function useProduct() {
 
 export default function ProductProvider({ children }) {
   let tempPublicProduct = [];
-  var userID = "";
-  var userEmail = "";
-  
-  // const [userID, setuserID] = useState("")
-  // const [userEmail, setuserEmail] = useState("")
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      userID = user.uid;
-      userEmail =user.email;
-    //   setuserID(user.uid)
-    //   setuserEmail(user.email);
-    // }
-    }
-  });
-  console.log("the current user is :", userID, userEmail);
+  // var userIDtest = "";
+  //  let userEmail = "-----";
+
+  const [userID, setuserID] = useState(firebase.auth().currentUser.uid);
+  // var userID = "";
+
+  const [userEmail, setuserEmail] = useState(firebase.auth().currentUser.email);
 
   const [userProductState, setUserProductState] = useState({
     addedProducts: [],
@@ -40,10 +31,13 @@ export default function ProductProvider({ children }) {
 
   const [publicProducts, setpublicProducts] = useState([]);
   const [rerenderInvoke, setRerenderInvoke] = useState(false);
+  const [detailProduct, setDetailProduct] = useState({});
+  const  [searchString, setSearchString] = useState("")
 
   useEffect(() => {
     userID && setUserData();
     userID && setPosts();
+    // console.log("the search sting isssssss",searchString)
   }, [rerenderInvoke]);
 
   const setPosts = async () => {
@@ -58,10 +52,12 @@ export default function ProductProvider({ children }) {
       tempPublicProduct.push({ ...doc.data(), id: doc.id });
     });
     setpublicProducts(tempPublicProduct);
-    setRerenderInvoke(!rerenderInvoke);
+    // setRerenderInvoke(!rerenderInvoke);
   };
 
   const setUserData = () => {
+    console.log("entering setUserData");
+    var docExist = true;
     db.collection("users data")
       .doc(userID)
       .get()
@@ -71,10 +67,17 @@ export default function ProductProvider({ children }) {
             ...doc.data(),
             modalProduct: {},
             modalOpen: false,
-            detailProduct: {},
           });
-          // console.log("userProductState is ", userProductState);
-        } else {
+          console.log(
+            "after setting the datas, the user data are",
+            userProductState
+          );
+        } 
+        // else {
+        //   docExist = false;
+        //   console.log("the userdata with userID:", userID, "doesnot exist");
+        // }
+        else {
           db.collection("users data").doc(userID).set({
             acceptedProducts: [],
             addedProducts: [],
@@ -82,7 +85,7 @@ export default function ProductProvider({ children }) {
           });
         }
       });
-    setRerenderInvoke(!rerenderInvoke);
+    // setRerenderInvoke(!rerenderInvoke);
   };
 
   const getItem = (id) => {
@@ -146,9 +149,13 @@ export default function ProductProvider({ children }) {
     setRerenderInvoke(!rerenderInvoke);
   };
 
-  const addToCart = (id) => {
+  const addToCart = async (id) => {
     const tempPost = getItem(id);
-    db.collection("users data")
+    console.log("ttest", id, tempPost);
+    console.log("update from userstate here", userID);
+    console.log("update from users data here, the userID is :", userID);
+    await db
+      .collection("users data")
       .doc(userID)
       .update({
         cartOfUser: firebase.firestore.FieldValue.arrayUnion(tempPost),
@@ -160,7 +167,9 @@ export default function ProductProvider({ children }) {
         );
       });
 
-    db.collection("public_posts")
+    console.log("update from public collections here", id);
+    await db
+      .collection("public_posts")
       .doc(id)
       .update({
         addedToCart: true,
@@ -168,19 +177,13 @@ export default function ProductProvider({ children }) {
       .then(() => {
         console.log("addedtoCart of public Post", tempPost, "is turned on");
       });
-
-    // db.collection("public_posts").doc(id).update({ addToPublicPosts: true });
-    setRerenderInvoke(!rerenderInvoke);
+    setPosts();
+    handleDetail(id);
   };
 
   const handleDetail = (id) => {
-    // console.log("from handle details, the id is :", id);
     const product = getItem(id);
-    // console.log("the detail product is :", product);
-    // let tempUserState = userProductState;
-    userProductState.detailProduct = product;
-    // setUserProductState(tempUserState);
-    console.log("after changihng user State", userProductState.detailProduct);
+    setDetailProduct(product);
   };
 
   const openModal = (id) => {
@@ -289,14 +292,12 @@ export default function ProductProvider({ children }) {
     //   .then(() => console.log("data updated with :", tempHandleDBVar));
   };
 
-  const getUserLoginInfo = () => {
-    console.log("userEmail is ::::", userEmail);
-    return userEmail;
-  };
+
 
   const value = {
-    getUserLoginInfo: getUserLoginInfo,
+    // getUserLoginInfo: getUserLoginInfo,
     userState: userProductState,
+    detailProduct: detailProduct,
     publicProducts: publicProducts,
     addRequests: addRequests,
     handleDetail: handleDetail,
@@ -308,6 +309,10 @@ export default function ProductProvider({ children }) {
     clearCart: clearCart,
     uploadRef: uploadRef,
     handleDatabase: handleDatabase,
+    userEmail: userEmail,
+    setSearchString:setSearchString,
+    searchString:searchString,
+    
   };
 
   return (
@@ -315,6 +320,6 @@ export default function ProductProvider({ children }) {
   );
 }
 
-const ProductConsumer = ProductContext.Consumer;
+// const ProductConsumer = ProductContext.Consumer;
 
-export { ProductConsumer };
+// export { ProductConsumer };
