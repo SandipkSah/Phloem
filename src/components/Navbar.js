@@ -40,6 +40,7 @@ export default function NavbarCustom() {
       setLoading(true);
       await logout();
       history.push("/");
+      console.log("logged out")
     } catch {
       setError("Failed to log out");
     }
