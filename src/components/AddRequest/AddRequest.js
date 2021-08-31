@@ -65,12 +65,12 @@ export default function AddRequest() {
   return (
     <div>
       <Navbar />
-      <button
+      {/* <button
         onClick={handleDatabase()}
         style={{ width: "5rem", height: "3rem" }}
       >
         DB modify
-      </button>
+      </button> */}
 
       <div className="contact_form" id="Write">
         <h2

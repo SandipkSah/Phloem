@@ -11,7 +11,7 @@ import ProductProvider from "./ProductContext";
 import AddRequest from "./AddRequest/AddRequest";
 import MyRequest from "./Request/MyRequest";
 import ThankUResponse from "./AddRequest/ThankURes";
-import Detail from "./detail";
+import Detail from "./Detail";
 import ModalProduct from "./modal"
 
 function App() {

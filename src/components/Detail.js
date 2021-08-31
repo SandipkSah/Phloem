@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useProduct } from "./ProductContext";
 import { Button } from "react-bootstrap";
+import "./css/Detail.css";
 
 export default function Detail() {
   const { detailProduct, addToCart } = useProduct();

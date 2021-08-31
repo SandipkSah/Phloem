@@ -40,7 +40,7 @@ export default function NavbarCustom() {
       setLoading(true);
       await logout();
       history.push("/");
-      console.log("logged out")
+      console.log("logged out");
     } catch {
       setError("Failed to log out");
     }
@@ -57,40 +57,21 @@ export default function NavbarCustom() {
         >
           Phloem
         </Navbar.Brand>
+
+        <input
+          type="search"
+          placeholder="Start typing to search...."
+          className="search_button"
+          aria-label="Search"
+          ref={searchString}
+          onChange={() => {
+            handleSearch();
+          }}
+        ></input>
+        
         <Navbar.Toggle aria-controls="navbarScroll" />
+
         <Navbar.Collapse id="navbarScroll">
-          {/* <Nav
-            className="mr-auto my-2 my-lg-0"
-            style={{ maxHeight: "100px" }}
-            navbarScroll
-          >
-            <Nav.Link
-              onClick={() => handleSubmitMyRequest()}
-              className="button_comp"
-              disabled={loading}
-            >
-              My Requests
-            </Nav.Link>
-            <Nav.Link
-              onClick={() => handleSubmitNewRequest()}
-              className="button_comp"
-              disabled={loading}
-            >
-              Make a Request
-            </Nav.Link>
-          </Nav> */}
-
-          <input
-            type="search"
-            placeholder="Start typing to search...."
-            className="search_button"
-            aria-label="Search"
-            ref={searchString}
-            onChange={() => {
-              handleSearch();
-            }}
-          ></input>
-
           <Nav
             className="mr-auto my-2 my-lg-0"
             style={{ maxHeight: "100px" }}
