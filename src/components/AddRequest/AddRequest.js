@@ -8,7 +8,7 @@ import firebase from "firebase";
 export default function AddRequest() {
   const history = useHistory();
   const [fileData, setFileData] = useState();
-  const { addRequests, uploadRef,handleDatabase } = useProduct();
+  const { addRequests, uploadRef } = useProduct();
 
   let userinfo = {};
 

@@ -37,7 +37,6 @@ export default function ProductProvider({ children }) {
   useEffect(() => {
     userID && setUserData();
     userID && setPosts();
-    // console.log("the search sting isssssss",searchString)
   }, [rerenderInvoke]);
 
   const setPosts = async () => {
@@ -52,12 +51,9 @@ export default function ProductProvider({ children }) {
       tempPublicProduct.push({ ...doc.data(), id: doc.id });
     });
     setpublicProducts(tempPublicProduct);
-    // setRerenderInvoke(!rerenderInvoke);
   };
 
   const setUserData = () => {
-    // /console.log("entering setUserData");
-    var docExist = true;
     db.collection("users data")
       .doc(userID)
       .get()
@@ -68,16 +64,7 @@ export default function ProductProvider({ children }) {
             modalProduct: {},
             modalOpen: false,
           });
-          // console.log(
-          //   "after setting the datas, the user data are",
-          //   userProductState
-          // );
-        }
-        // else {
-        //   docExist = false;
-        //   console.log("the userdata with userID:", userID, "doesnot exist");
-        // }
-        else {
+        } else {
           db.collection("users data").doc(userID).set({
             acceptedProducts: [],
             addedProducts: [],
@@ -85,7 +72,6 @@ export default function ProductProvider({ children }) {
           });
         }
       });
-    // setRerenderInvoke(!rerenderInvoke);
   };
 
   const getItem = (id) => {
@@ -173,7 +159,7 @@ export default function ProductProvider({ children }) {
       });
     handleDetail(id);
     setPosts();
-    setUserData()
+    setUserData();
   };
 
   const handleDetail = (id) => {
@@ -278,18 +264,19 @@ export default function ProductProvider({ children }) {
   };
 
   const handleDatabase = () => {
-    // console.log("handling database.........");
+    console.log("handling database.........");
+    
     // console.log("the length of public productttttttttttt", publicProducts);
-    let tempHandleDBVar = [];
-    publicProducts.map((eachPublicPost) => {
-      eachPublicPost.requestingParty.id === userID
-        ? tempHandleDBVar.push(eachPublicPost)
-        : console.log("NOTOFINTEREST");
-    });
-    db.collection("users data")
-      .doc(userID)
-      .update({ addedProducts: tempHandleDBVar })
-      .then(() => console.log("data updated with :", tempHandleDBVar));
+    // let tempHandleDBVar = [];
+    // publicProducts.forEach((eachPublicPost) => {
+    //   eachPublicPost.requestingParty.id === userID
+    //     ? tempHandleDBVar.push(eachPublicPost)
+    //     : console.log("NOTOFINTEREST");
+    // });
+    // db.collection("users data")
+    //   .doc(userID)
+    //   .update({ addedProducts: tempHandleDBVar })
+    //   .then(() => console.log("data updated with :", tempHandleDBVar));
   };
 
   const value = {
@@ -313,4 +300,3 @@ export default function ProductProvider({ children }) {
     <ProductContext.Provider value={value}>{children}</ProductContext.Provider>
   );
 }
-
