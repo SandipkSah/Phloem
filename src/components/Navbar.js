@@ -49,8 +49,7 @@ export default function NavbarCustom() {
 
   return (
     <>
-
-      <Navbar  expand="lg" className="navbar_comp">
+      <Navbar bg="green" expand="lg" style={{backgroundColor:"rgb(202, 242, 198)"}}>
         <Navbar.Brand
           onClick={() => handleSubmitPhloem()}
           className="button_comp"
@@ -58,6 +57,62 @@ export default function NavbarCustom() {
         >
           Phloem
         </Navbar.Brand>
+        <input
+          type="search"
+          placeholder="Start typing to search...."
+          className="search_button"
+          aria-label="Search"
+          ref={searchString}
+          onChange={() => {
+            handleSearch();
+          }}
+        ></input>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="mr-auto my-2 my-lg-0"
+            style={{ maxHeight: "100px" }}
+            navbarScroll
+          >
+            <Nav.Link
+              onClick={() => handleSubmitMyRequest()}
+              className="button_comp"
+              disabled={loading}
+            >
+              My Requests
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => handleSubmitNewRequest()}
+              className="button_comp"
+              disabled={loading}
+            >
+              Make a Request
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                handleLogout();
+              }}
+            >
+              <p style={{ cursor: "pointer", color: "black" }}>
+                <ExitToAppIcon
+                  style={{ cursor: "pointer", marginRight: "10px" }}
+                />
+                ({userEmail})
+              </p>
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+
+      {/* <Navbar expand="lg" className="navbar_comp">
+        <Navbar.Brand
+          onClick={() => handleSubmitPhloem()}
+          className="button_comp"
+          disabled={loading}
+        >
+          Phloem
+        </Navbar.Brand>
+        
         <input
           type="search"
           placeholder="Start typing to search...."
@@ -109,7 +164,7 @@ export default function NavbarCustom() {
         <Alert variant="danger" style={{ textAlign: "center", margin: "auto" }}>
           {error}
         </Alert>
-      )}
+      )} */}
     </>
   );
 }

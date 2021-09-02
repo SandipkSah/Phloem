@@ -158,6 +158,7 @@
 }
 
 @media only screen and (max-width: 600px) {
+
   .search_button {
     margin: auto;
   }
