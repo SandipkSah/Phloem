@@ -19,8 +19,9 @@
 }
 
 .column-2 {
-  flex: 50% !important;
+  flex: 50%;
   margin: auto;
+  text-align: center;
 }
 
 .single_product {
@@ -53,4 +54,24 @@
   margin: 20px 0;
   font-size: 22px;
   font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  .detail_container {
+    margin: 0;
+  }
+
+  .detail_row {
+    flex-direction: column;
+    min-width: 400px;
+  }
+  .column-2 {
+    flex: auto;
+  }
+
+  .single_product .column-2 img {
+    min-width: 380px;
+    max-width: 400px;
+    
+  }
 }

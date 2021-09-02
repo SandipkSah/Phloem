@@ -12,7 +12,6 @@ export function useProduct() {
 export default function ProductProvider({ children }) {
   let tempPublicProduct = [];
 
-
   const [userID, setuserID] = useState(
     firebase.auth().currentUser ? firebase.auth().currentUser.uid : null
   );
@@ -172,8 +171,9 @@ export default function ProductProvider({ children }) {
       .then(() => {
         console.log("addedtoCart of public Post", tempPost, "is turned on");
       });
-    setPosts();
     handleDetail(id);
+    setPosts();
+    setUserData()
   };
 
   const handleDetail = (id) => {
@@ -314,6 +314,3 @@ export default function ProductProvider({ children }) {
   );
 }
 
-// const ProductConsumer = ProductContext.Consumer;
-
-// export { ProductConsumer };

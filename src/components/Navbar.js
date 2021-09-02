@@ -49,7 +49,8 @@ export default function NavbarCustom() {
 
   return (
     <>
-      <Navbar expand="lg" className="navbar_comp">
+
+      <Navbar  expand="lg" className="navbar_comp">
         <Navbar.Brand
           onClick={() => handleSubmitPhloem()}
           className="button_comp"
@@ -57,7 +58,6 @@ export default function NavbarCustom() {
         >
           Phloem
         </Navbar.Brand>
-
         <input
           type="search"
           placeholder="Start typing to search...."
@@ -68,9 +68,7 @@ export default function NavbarCustom() {
             handleSearch();
           }}
         ></input>
-        
         <Navbar.Toggle aria-controls="navbarScroll" />
-
         <Navbar.Collapse id="navbarScroll">
           <Nav
             className="mr-auto my-2 my-lg-0"
@@ -91,23 +89,22 @@ export default function NavbarCustom() {
             >
               Make a Request
             </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                handleLogout();
+              }}
+            >
+              <p style={{ cursor: "pointer", color: "black" }}>
+                <ExitToAppIcon
+                  style={{ cursor: "pointer", marginRight: "10px" }}
+                />
+                ({userEmail})
+              </p>
+            </Nav.Link>
+            
           </Nav>
-
-          <Nav.Link
-            onClick={() => {
-              handleLogout();
-            }}
-          >
-            <p style={{ cursor: "pointer", color: "black" }}>
-              <ExitToAppIcon
-                style={{ cursor: "pointer", marginRight: "10px" }}
-              />
-              ({userEmail})
-            </p>
-          </Nav.Link>
         </Navbar.Collapse>
       </Navbar>
-
       {error && (
         <Alert variant="danger" style={{ textAlign: "center", margin: "auto" }}>
           {error}

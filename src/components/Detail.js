@@ -15,7 +15,6 @@ export default function Detail() {
     priceRange,
     description,
     requestingParty,
-    // addedToCart,
   } = detailProduct;
   const [yesAddedTocart, setYesAddedTocart] = useState(false);
   const changeText = async (id) => {
