@@ -263,20 +263,47 @@ export default function ProductProvider({ children }) {
     return imageURL;
   };
 
-  const handleDatabase = () => {
+  const handleDatabase = async () => {
     console.log("handling database.........");
-    
-    // console.log("the length of public productttttttttttt", publicProducts);
-    // let tempHandleDBVar = [];
-    // publicProducts.forEach((eachPublicPost) => {
-    //   eachPublicPost.requestingParty.id === userID
-    //     ? tempHandleDBVar.push(eachPublicPost)
-    //     : console.log("NOTOFINTEREST");
+    // console.log(
+    //   "the length of public productttttttttttt",
+    //   publicProducts,
+    //   "the current user is :",
+    //   userID
+    // );
+
+    // let userIDArray = [];
+
+    // await db
+    //   .collection("users data")
+    //   .get()
+    //   .then((snapshot) => {
+    //     snapshot.forEach((eachUserData) => {
+    //       userIDArray.push(eachUserData.id);
+    //       // console.log("the id of each user is ",userIDArray)
+    //     });
+    //   });
+
+    // console.log("the userID array is ", userIDArray);
+    // userIDArray.map(async (userID) => {
+    //   let tempHandleDBVar = [];
+    //   publicProducts.forEach((eachPublicPost) => {
+    //     eachPublicPost.requestingParty.id === userID
+    //       ? tempHandleDBVar.push(eachPublicPost)
+    //       : console.log("NOTOFINTEREST");
+    //   });
+    //   console.log(
+    //     "for the id :",
+    //     userID,
+    //     "the data of interst is :",
+    //     tempHandleDBVar
+    //   );
+    //   await db
+    //     .collection("users data")
+    //     .doc(userID)
+    //     .update({ addedProducts: tempHandleDBVar })
+    //     .then(() => console.log("data updated with :", tempHandleDBVar));
     // });
-    // db.collection("users data")
-    //   .doc(userID)
-    //   .update({ addedProducts: tempHandleDBVar })
-    //   .then(() => console.log("data updated with :", tempHandleDBVar));
   };
 
   const value = {

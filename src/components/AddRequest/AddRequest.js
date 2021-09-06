@@ -67,7 +67,7 @@ export default function AddRequest() {
       <Navbar />
       {/* <button
         onClick={handleDatabase()}
-        style={{ width: "5rem", height: "3rem" }}
+        style={{ width: "10rem", height: "3rem" }}
       >
         DB modify
       </button> */}
